@@ -1,0 +1,17 @@
+{
+  "name": "sifttt",
+  "version": "0.1.0",
+  "description": "Create simple recipes to do simple tasks, using gulp.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"No tests yet but returning success for deploy\" && exit 0"
+  },
+  "keywords": [
+    "gulpfriendly"
+  ],
+  "author": "Mark Birbeck <mark.birbeck@gmail.com> (http://markbirbeck.com/)",
+  "license": "MIT",
+  "repository": "markbirbeck/sifttt",
+  "bugs": "https://github.com/markbirbeck/sifttt/issues",
+  "homepage": "https://github.com/markbirbeck/sifttt"
+}
