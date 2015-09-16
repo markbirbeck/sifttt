@@ -17,6 +17,6 @@
   "dependencies": {
     "gulp": "^3.9.0",
     "stream-google-spreadsheet": "^0.5.0",
-    "vinyl-elasticsearch": "^0.7.0"
+    "vinyl-elasticsearch": "^0.7.1"
   }
 }
