@@ -16,8 +16,14 @@ var addRecipe = function(gulp, recipe) {
   var dest = channels[_then.channel].dest;
 
   gulp.task(recipe.name, function() {
-    return src(_if.glob, _if.opts)
-      .map(recipe.map)
+    var stream = src(_if.glob, _if.opts);
+
+    if (recipe.map) {
+      stream = stream
+        .map(recipe.map)
+    }
+
+    return stream
       .pipe(dest(_then.glob, _then.opts));
   });
 };
