@@ -1,4 +1,5 @@
 var _ = require('lodash');
+var h = require('highland');
 
 var sheets = require('stream-google-spreadsheet');
 var es = require('vinyl-elasticsearch');
@@ -23,7 +24,7 @@ var addRecipe = function(gulp, recipe, connections) {
   var dest = channels[_then.channel].dest;
 
   gulp.task(recipe.name, function() {
-    var stream = src(_if.glob, _if.opts);
+    var stream = h(src(_if.glob, _if.opts));
 
     if (recipe.map) {
       stream = stream
