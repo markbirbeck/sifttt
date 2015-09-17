@@ -56,6 +56,12 @@ The `opt` parameters to provide to the channel's `src()` or `dest()` method (dep
 
 These values will override any values passed in via the `connections` parameter.
 
+### arrayExpand
+
+A boolean to indicate whether an array of data within a file should be converted to a collection of individual Vinyl files.
+
+Note that this option is currently only implemented on the `_if` side.
+
 ## Connection Parameters
 
 The properties passed in the `connection` parameter to the `addRecipe()` method are merged with the `opts` property in a recipe for the corresponding channel. See the connections example below to make this clearer.
