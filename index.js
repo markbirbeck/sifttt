@@ -12,7 +12,17 @@ var channels = {
 
   elasticsearch: es,
 
-  s3: s3
+  s3: s3,
+
+  echo: {
+    dest: function(glob, opts) {
+      return h()
+        .each(function(file) {
+          console.log('[ECHO]: ', (file.data) ? file.data :
+            String(file.contents));
+        });
+    }
+  }
 };
 
 function toVinyl(obj) {
