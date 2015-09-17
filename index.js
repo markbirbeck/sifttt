@@ -90,7 +90,7 @@ var addRecipe = function(gulp, recipe, connections) {
            * If we're not expanding arrays or there is no data then move on:
            */
 
-          if (!recipe.arrayExpand || (!file.data && !file.contents)) {
+          if (!_if.arrayExpand || (!file.data && !file.contents)) {
             push(null, file);
             next();
             return;
