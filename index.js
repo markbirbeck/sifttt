@@ -1,6 +1,7 @@
 var _ = require('lodash');
 var h = require('highland');
 var File = require('vinyl');
+var jsonPath = require('JSONPath');
 
 var sheets = require('stream-google-spreadsheet');
 var es = require('vinyl-elasticsearch');
@@ -133,6 +134,22 @@ var addRecipe = function(gulp, recipe, connections) {
               push(null, toVinyl(entry));
             });
           next();
+        })
+        .map(function(file) {
+          if (recipe.filter) {
+            var data = file.data;
+
+            recipe.filter.forEach(function(filter) {
+              if (filter.json) {
+                var action = filter.json;
+
+                data[action.target] = JSON.parse(jsonPath.eval(data,
+                  action.source));
+              }
+            });
+            file.data = data;
+          }
+          return file;
         })
         .map(function(file) {
           return (recipe.map) ? recipe.map(file) : file;

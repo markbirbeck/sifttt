@@ -15,12 +15,13 @@
   "bugs": "https://github.com/markbirbeck/sifttt/issues",
   "homepage": "https://github.com/markbirbeck/sifttt",
   "dependencies": {
+    "JSONPath": "^0.10.0",
     "gulp": "^3.9.0",
     "highland": "^2.5.1",
     "lodash": "^3.10.1",
     "stream-google-spreadsheet": "^0.5.0",
-    "vinyl-elasticsearch": "^0.8.0",
     "vinyl": "^0.5.3",
+    "vinyl-elasticsearch": "^0.8.0",
     "vinyl-s3": "^0.3.0"
   }
 }
