@@ -2,6 +2,7 @@ var _ = require('lodash');
 var h = require('highland');
 var File = require('vinyl');
 var jsonPath = require('JSONPath');
+var evaljson = require('evaljson');
 
 var sheets = require('stream-google-spreadsheet');
 var es = require('vinyl-elasticsearch');
@@ -145,6 +146,12 @@ var addRecipe = function(gulp, recipe, connections) {
 
                 data[action.target] = JSON.parse(jsonPath.eval(data,
                   action.source));
+              }
+
+              if (filter.mutate) {
+                var action = evaljson(filter.mutate, data);
+
+                data[action.target] = action.source;
               }
             });
             file.data = data;

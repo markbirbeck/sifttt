@@ -16,6 +16,7 @@
   "homepage": "https://github.com/markbirbeck/sifttt",
   "dependencies": {
     "JSONPath": "^0.10.0",
+    "evaljson": "^1.2.1",
     "gulp": "^3.9.0",
     "highland": "^2.5.1",
     "lodash": "^3.10.1",
