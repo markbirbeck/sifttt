@@ -14,6 +14,13 @@ var channels = {
 
   s3: s3,
 
+  noop: {
+    dest: function(glob, opts) {
+      return h()
+        .each(function(file) { });
+    }
+  },
+
   echo: {
     dest: function(glob, opts) {
       return h()
