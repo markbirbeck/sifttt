@@ -62,8 +62,11 @@ function toVinyl(obj) {
 var addRecipe = function(gulp, recipe, connections) {
   connections = connections || {};
 
-  var _if = _.merge({opts: connections[recipe.if.channel]}, recipe.if);
-  var _then = _.merge({opts: connections[recipe.then.channel]}, recipe.then);
+  var _if = recipe.input || recipe.if;
+  var _then = recipe.output || recipe.then;
+
+  _if = _.merge({opts: connections[_if.channel]}, _if);
+  _then = _.merge({opts: connections[_then.channel]}, _then);
 
   var src = channels[_if.channel].src;
   var dest = channels[_then.channel].dest;
