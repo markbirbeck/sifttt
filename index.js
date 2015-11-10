@@ -18,8 +18,8 @@ var channels = {
     dest: function(glob, opts) {
       return h()
         .each(function(file) {
-          console.log('[ECHO]: ', (file.data) ? file.data :
-            String(file.contents));
+          console.log('[ECHO]: ', file.id || file.path, (file.data) ?
+            file.data : String(file.contents));
         });
     }
   }
