@@ -61,6 +61,17 @@ function toVinyl(obj) {
   return file;
 }
 
+function mutate(params, data) {
+  try {
+    var action = evaljson(params, data);
+
+    data[action.target] = action.source;
+  } catch (e) {
+    console.warn('Unable to assign to',
+      params.target, ':', e.message);
+  }
+}
+
 var addRecipe = function(gulp, recipe, connections) {
   connections = connections || {};
 
@@ -170,9 +181,7 @@ var addRecipe = function(gulp, recipe, connections) {
               }
 
               if (filter.mutate) {
-                var action = evaljson(filter.mutate, data);
-
-                data[action.target] = action.source;
+                mutate(filter.mutate, data);
               }
 
               if (filter.split) {
@@ -198,14 +207,7 @@ var addRecipe = function(gulp, recipe, connections) {
                     if (split.filter) {
                       split.filter.forEach(function(filterDash) {
                         if (filterDash.mutate) {
-                          try {
-                            var action = evaljson(filterDash.mutate, dataNew);
-
-                            dataNew[action.target] = action.source;
-                          } catch (e) {
-                            console.warn('Unable to assign to',
-                              filterDash.mutate.target, ':', e.message);
-                          }
+                          mutate(filterDash.mutate, dataNew);
                         }
                       });
                     }
