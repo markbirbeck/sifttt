@@ -136,7 +136,28 @@ var addRecipe = function(gulp, recipe, connections) {
             });
           next();
         })
-        .map(function(file) {
+        .consume(function(err, file, push, next) {
+          var dropRecord = false;
+
+          /*
+           * Forward any errors:
+           */
+
+          if (err) {
+            push(err);
+            next();
+            return;
+          }
+
+          /**
+           * Check to see if we're finished:
+           */
+
+          if (file === h.nil) {
+            push(null, file);
+            return;
+          }
+
           if (recipe.filter) {
             var data = file.data;
 
@@ -153,10 +174,53 @@ var addRecipe = function(gulp, recipe, connections) {
 
                 data[action.target] = action.source;
               }
+
+              if (filter.split) {
+                var split = filter.split;
+                var field = split.field;
+
+                /**
+                 * Even if there is only one item we pass it through the split
+                 * pipeline and drop the current record:
+                 */
+
+                var toSplit = data[field];
+
+                if (!Array.isArray(toSplit)) {
+                  toSplit = [toSplit];
+                }
+
+                toSplit
+                  .forEach(function(entry) {
+                    var dataNew = _.clone(data);
+
+                    dataNew[field] = entry;
+                    if (split.filter) {
+                      split.filter.forEach(function(filterDash) {
+                        if (filterDash.mutate) {
+                          try {
+                            var action = evaljson(filterDash.mutate, dataNew);
+
+                            dataNew[action.target] = action.source;
+                          } catch (e) {
+                            console.warn('Unable to assign to',
+                              filterDash.mutate.target, ':', e.message);
+                          }
+                        }
+                      });
+                    }
+                    push(null, toVinyl(dataNew));
+                  });
+                dropRecord = true;
+              }
             });
             file.data = data;
           }
-          return file;
+          if (!dropRecord) {
+            push(null, file);
+          }
+          next();
+          return;
         })
         .map(function(file) {
           return (recipe.map) ? recipe.map(file) : file;
