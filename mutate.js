@@ -18,6 +18,40 @@ function mutate(params, data) {
   if (params.removeField) {
     ret = _.omit(data, params.removeField);
   }
+
+  if (params.convert) {
+    var convert = params.convert;
+    ret = _.clone(data);
+
+    Object.getOwnPropertyNames(convert).forEach(function(prop) {
+      var type = convert[prop];
+      var val = ret[prop];
+      var newVal = val;
+
+      switch (type) {
+        case 'Date':
+          if (val < 10000000000) {
+            val *= 1000;
+          }
+          newVal = (new Date(val)).toString();
+          break;
+
+        case 'Number':
+          newVal = Number(val);
+          break;
+
+        case 'String':
+          newVal = String(val);
+          break;
+
+        default:
+          throw(new Error('No type conversion for \'' + type + '\''));
+          break;
+      }
+      ret[prop] = newVal;
+    })
+  }
+
   return ret || data;
 }
 

@@ -45,4 +45,47 @@ describe('mutate', function() {
         .should.eql({'b': 2});
     });
   });
+
+  describe('convert', function() {
+    it('Number', function() {
+      uut(
+        {'convert': {'a': 'Number'}},
+        {'a': '1'}
+      )
+        .should.eql({'a': 1});
+    });
+
+    it('String', function() {
+      uut(
+        {'convert': {'a': 'String'}},
+        {'a': 1}
+      )
+        .should.eql({'a': '1'});
+    });
+
+    it('Date in seconds', function() {
+      uut(
+        {'convert': {'a': 'Date'}},
+        {'a': 1446807983}
+      )
+        .should.eql({'a': 'Fri Nov 06 2015 11:06:23 GMT+0000 (GMT)'});
+    });
+
+    it('Date in milliseconds', function() {
+      uut(
+        {'convert': {'a': 'Date'}},
+        {'a': 1446807983000}
+      )
+        .should.eql({'a': 'Fri Nov 06 2015 11:06:23 GMT+0000 (GMT)'});
+    });
+
+    it('Invalid', function() {
+      (function() {
+        uut(
+          {'convert': {'a': 'Invalid'}},
+          {'a': 'Some text'}
+        );
+      }).should.throw('No type conversion for \'Invalid\'');
+    });
+  });
 });
