@@ -1,12 +1,12 @@
 var _ = require('lodash');
 var h = require('highland');
 var File = require('vinyl');
-var jsonPath = require('JSONPath');
 
 var sheets = require('stream-google-spreadsheet');
 var es = require('vinyl-elasticsearch');
 var s3 = require('vinyl-s3');
 
+var json = require('./json');
 var mutate = require('./mutate');
 
 var channels = {
@@ -164,10 +164,7 @@ var addRecipe = function(gulp, recipe, connections) {
 
             recipe.filter.forEach(function(filter) {
               if (filter.json) {
-                var action = filter.json;
-
-                data[action.target] = JSON.parse(jsonPath.eval(data,
-                  action.source));
+                data = json(filter.json, data);
               }
 
               if (filter.mutate) {
