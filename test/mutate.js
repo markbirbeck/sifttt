@@ -26,6 +26,15 @@ describe('mutate', function() {
       )
         .should.eql({'a': 'hello, world!', 'b': 'world'});
     });
+
+    it('invalid source', function() {
+      (function() {
+        uut(
+          {'source': 'hello, #{c}!', 'target': 'a'},
+          {'a': 1, 'b': 'world'}
+        );
+      }).should.throw('Unable to assign to \'a\': Unknown expression:c');
+    });
   });
 
   describe('removeField', function() {

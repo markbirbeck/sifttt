@@ -11,7 +11,8 @@ function mutate(params, data) {
       ret = _.clone(data);
       ret[action.target] = action.source;
     } catch (e) {
-      console.warn('Unable to assign to', params.target, ':', e.message);
+      throw(new Error('Unable to assign to \'' + params.target + '\': ' +
+        e.message));
     }
   }
 
