@@ -56,7 +56,7 @@ function toVinyl(obj) {
    */
 
   file.data = data;
-  file.contents = new Buffer(data);
+  file.contents = new Buffer(JSON.stringify(data));
 
   return file;
 }
