@@ -2,11 +2,12 @@ var _ = require('lodash');
 var h = require('highland');
 var File = require('vinyl');
 var jsonPath = require('JSONPath');
-var evaljson = require('evaljson');
 
 var sheets = require('stream-google-spreadsheet');
 var es = require('vinyl-elasticsearch');
 var s3 = require('vinyl-s3');
+
+var mutate = require('./mutate');
 
 var channels = {
   'google-sheets': sheets,
@@ -59,27 +60,6 @@ function toVinyl(obj) {
   file.contents = new Buffer(JSON.stringify(data));
 
   return file;
-}
-
-function mutate(params, data) {
-  var ret;
-
-  if (params.source && params.target) {
-    try {
-      var action = evaljson(params, data);
-
-      ret = _.clone(data);
-      ret[action.target] = action.source;
-    } catch (e) {
-      console.warn('Unable to assign to', params.target, ':', e.message);
-    }
-  }
-
-  if (params.removeField) {
-    ret = _.omit(data, params.removeField);
-  }
-
-  return ret || data;
 }
 
 var addRecipe = function(gulp, recipe, connections) {
