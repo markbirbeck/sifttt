@@ -56,45 +56,45 @@ describe('mutate', function() {
   });
 
   describe('convert', function() {
-    it('Number', function() {
+    it('number', function() {
       uut(
-        {'convert': {'a': 'Number'}},
+        {'convert': {'a': 'number'}},
         {'a': '1'}
       )
         .should.eql({'a': 1});
     });
 
-    it('String', function() {
+    it('string', function() {
       uut(
-        {'convert': {'a': 'String'}},
+        {'convert': {'a': 'string'}},
         {'a': 1}
       )
         .should.eql({'a': '1'});
     });
 
-    it('Date in seconds', function() {
+    it('date in seconds', function() {
       uut(
-        {'convert': {'a': 'Date'}},
+        {'convert': {'a': 'date'}},
         {'a': 1446807983}
       )
-        .should.eql({'a': 'Fri Nov 06 2015 11:06:23 GMT+0000 (GMT)'});
+        .should.eql({'a': '2015-11-06T11:06:23.000Z'});
     });
 
-    it('Date in milliseconds', function() {
+    it('date in milliseconds', function() {
       uut(
-        {'convert': {'a': 'Date'}},
+        {'convert': {'a': 'date'}},
         {'a': 1446807983000}
       )
-        .should.eql({'a': 'Fri Nov 06 2015 11:06:23 GMT+0000 (GMT)'});
+        .should.eql({'a': '2015-11-06T11:06:23.000Z'});
     });
 
-    it('Invalid', function() {
+    it('invalid', function() {
       (function() {
         uut(
-          {'convert': {'a': 'Invalid'}},
+          {'convert': {'a': 'invalid'}},
           {'a': 'Some text'}
         );
-      }).should.throw('No type conversion for \'Invalid\'');
+      }).should.throw('No type conversion for \'invalid\'');
     });
   });
 });

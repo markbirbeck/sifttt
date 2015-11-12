@@ -30,18 +30,18 @@ function mutate(params, data) {
       var newVal = val;
 
       switch (type) {
-        case 'Date':
+        case 'date':
           if (val < 10000000000) {
             val *= 1000;
           }
-          newVal = (new Date(val)).toString();
+          newVal = (new Date(val)).toISOString();
           break;
 
-        case 'Number':
+        case 'number':
           newVal = Number(val);
           break;
 
-        case 'String':
+        case 'string':
           newVal = String(val);
           break;
 
