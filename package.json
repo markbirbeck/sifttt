@@ -4,7 +4,8 @@
   "description": "Create simple recipes to do simple tasks, using gulp.",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "preversion": "npm test"
   },
   "keywords": [
     "gulpfriendly"
