@@ -6,8 +6,26 @@ var sheets = require('stream-google-spreadsheet');
 var es = require('vinyl-elasticsearch');
 var s3 = require('vinyl-s3');
 
-var json = require('./json');
-var mutate = require('./mutate');
+var _json = require('./json');
+var _mutate = require('./mutate');
+
+function json(params, data) {
+  try {
+    return _json(params, data);
+  } catch (e) {
+    console.warn(data.MessageId, ':', e.message);
+  }
+  return data;
+}
+
+function mutate(params, data) {
+  try {
+    return _mutate(params, data);
+  } catch (e) {
+    console.warn(data.MessageId, ':', e.message);
+  }
+  return data;
+}
 
 var channels = {
   'google-sheets': sheets,
