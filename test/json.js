@@ -1,5 +1,5 @@
 require('chai').should();
-var uut = require('../json');
+var uut = require('../lib/json');
 
 describe('json', function() {
   it('parse ok', function() {

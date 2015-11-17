@@ -1,5 +1,5 @@
 var should = require('chai').should();
-var uut = require('../mutate');
+var uut = require('../lib/mutate');
 
 describe('mutate', function() {
   describe('assign', function() {
