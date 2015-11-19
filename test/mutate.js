@@ -27,6 +27,14 @@ describe('mutate', function() {
         .should.eql({'a': 'hello, world!', 'b': 'world'});
     });
 
+    it('with direct assignment', function() {
+      uut(
+        {'source': '#{b.c}', 'target': 'a'},
+        {'a': 1, 'b': {'c': 2}}
+      )
+        .should.eql({'a': 2, 'b': {'c': 2}});
+    });
+
     it('invalid source', function() {
       (function() {
         uut(
