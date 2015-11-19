@@ -45,6 +45,32 @@ describe('mutate', function() {
     });
   });
 
+  describe('conditional', function() {
+    it('property does not exist', function() {
+      uut(
+        {
+          'if': '#{missingProperty}',
+          'source': 'hello, world!',
+          'target': 'a'
+        },
+        {'a': 1, 'b': 2}
+      )
+        .should.eql({'a': 1, 'b': 2});
+    });
+
+    it('property does exist', function() {
+      uut(
+        {
+          'if': '#{b}',
+          'source': 'hello, world!',
+          'target': 'a'
+        },
+        {'a': 1, 'b': 2}
+      )
+        .should.eql({'a': 'hello, world!', 'b': 2});
+    });
+  });
+
   describe('removeField', function() {
     it('a single field', function() {
       uut(
