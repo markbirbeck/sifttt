@@ -20,6 +20,7 @@
     "evaljson": "^1.2.1",
     "gulp": "^3.9.0",
     "highland": "^2.5.1",
+    "http-aws-es": "^1.1.2",
     "lodash": "^3.10.1",
     "moment": "^2.10.6",
     "object-path": "^0.9.2",
