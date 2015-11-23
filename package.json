@@ -18,7 +18,7 @@
   "dependencies": {
     "JSONPath": "^0.10.0",
     "evaljson": "^1.2.1",
-    "gulp": "^3.9.0",
+    "gulp-endpoint": "^0.5.0",
     "highland": "^2.5.1",
     "http-aws-es": "^1.1.2",
     "lodash": "^3.10.1",
@@ -33,5 +33,8 @@
   "devDependencies": {
     "chai": "^3.4.1",
     "mocha": "^2.3.3"
+  },
+  "peerDependencies": {
+    "gulp": "^3.9.0"
   }
 }
