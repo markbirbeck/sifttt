@@ -1,6 +1,6 @@
 var path = require('path');
 require('chai').should();
-var uut = require('../lib/streamFromRecipe2');
+var uut = require('../lib/streamFromRecipe');
 
 var recipes = [
   {
