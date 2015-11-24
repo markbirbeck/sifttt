@@ -41,7 +41,7 @@ var connections = {};
 var channels = require('../lib/channels')(connections, recipes);
 
 describe('gulp channel', function() {
-  it('should read and write file', function(done) {
+  it('should read and write a file', function(done) {
     uut(recipes[0], connections, channels)
     .toArray(function(fileList) {
       fileList.forEach(function(file) {
