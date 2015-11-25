@@ -18,7 +18,7 @@
   "dependencies": {
     "JSONPath": "^0.10.0",
     "evaljson": "^1.2.1",
-    "gulp-endpoint": "^0.5.0",
+    "gulp-endpoint": "^0.6.0",
     "highland": "^2.5.1",
     "lodash": "^3.10.1",
     "moment": "^2.10.6",
