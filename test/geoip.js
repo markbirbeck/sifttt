@@ -3,21 +3,39 @@ require('chai').should();
 var uut = require('../lib/geoip');
 
 describe('geoip', function() {
-  it('IP should be in New York', function() {
-    var res = uut(
-      {
-        source: 'clientip',
-        target: 'geoip',
-        database: path.join(__dirname, '../GeoIP/GeoLiteCity.dat')
-      },
-      {clientip: '66.6.44.4'}
-    );
+  describe('IP should be in New York', function() {
+    it('direct', function() {
+      var res = uut(
+        {
+          source: '66.6.44.4',
+          target: 'geoip',
+          database: path.join(__dirname, '../GeoIP/GeoLiteCity.dat')
+        }
+      );
 
-    res
-    .should.have.property('geoip');
+      res
+      .should.have.property('geoip');
 
-    res.geoip
-    .should.have.property('city', 'New York');
+      res.geoip
+      .should.have.property('city', 'New York');
+    });
+
+    it('indirect', function() {
+      var res = uut(
+        {
+          source: '#{clientip}',
+          target: 'geoip',
+          database: path.join(__dirname, '../GeoIP/GeoLiteCity.dat')
+        },
+        {clientip: '66.6.44.4'}
+      );
+
+      res
+      .should.have.property('geoip');
+
+      res.geoip
+      .should.have.property('city', 'New York');
+    });
   });
 
   describe('should error if', function() {
@@ -25,13 +43,12 @@ describe('geoip', function() {
       (function() {
         uut(
           {
-            source: 'clientip',
+            source: '66.6.44.4',
             target: 'geoip'
-          },
-          {clientip: '66.6.44.4'}
+          }
         )
       })
-      .should.throw('Unable to get geoip for \'clientip\': Error: Please ' +
+      .should.throw('Unable to get geoip for \'66.6.44.4\': Error: Please ' +
         'provide a value for the \'database\' parameter');
     });
 
@@ -39,14 +56,13 @@ describe('geoip', function() {
       (function() {
         uut(
           {
-            source: 'clientip',
+            source: '66.6.44.4',
             target: 'geoip',
             database: 'noSuchDatabase.dat'
-          },
-          {clientip: '66.6.44.4'}
+          }
         )
       })
-      .should.throw('Unable to get geoip for \'clientip\': Error: ENOENT: no ' +
+      .should.throw('Unable to get geoip for \'66.6.44.4\': Error: ENOENT: no ' +
         'such file or directory, stat \'noSuchDatabase.dat\'');
     });
   });
