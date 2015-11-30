@@ -44,6 +44,7 @@ describe('gulp channel', function() {
   it('should read and write a file', function(done) {
     uut(recipes[0], connections, channels)
     .toArray(function(fileList) {
+      fileList.should.have.length(1);
       fileList.forEach(function(file) {
         var data = JSON.parse(String(file.contents));
 
@@ -57,6 +58,7 @@ describe('gulp channel', function() {
   it('should mutate a file', function(done) {
     uut(recipes[1], connections, channels)
     .toArray(function(fileList) {
+      fileList.should.have.length(1);
       fileList.forEach(function(file) {
         var data = JSON.parse(String(file.contents));
 
