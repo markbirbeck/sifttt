@@ -60,7 +60,7 @@ var recipes = [
         }
       }
     ]
-  },
+  }
 ];
 var connections = {};
 var channels = require('../lib/channels')(connections, recipes);
