@@ -16,8 +16,11 @@
   "homepage": "https://github.com/markbirbeck/sifttt",
   "dependencies": {
     "JSONPath": "^0.10.0",
+    "cors": "^2.7.1",
     "elasticsearch": "^10.0.1",
     "evaljson": "^1.2.1",
+    "event-stream": "^3.3.2",
+    "express": "^4.13.3",
     "gulp": "^3.9.0",
     "highland": "^2.5.1",
     "http-aws-es": "^1.1.2",
