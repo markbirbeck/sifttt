@@ -19,7 +19,6 @@
     "elasticsearch": "^10.0.1",
     "evaljson": "^1.2.1",
     "gulp": "^3.9.0",
-    "gulp-endpoint": "^0.6.0",
     "highland": "^2.5.1",
     "http-aws-es": "^1.1.2",
     "lodash": "^3.10.1",
