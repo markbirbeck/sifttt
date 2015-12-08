@@ -1,4 +1,4 @@
-var should = require('chai').should();
+require('chai').should();
 var uut = require('../lib/filters/mutate');
 
 describe('mutate', function() {
