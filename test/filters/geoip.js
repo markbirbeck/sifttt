@@ -10,7 +10,8 @@ describe('geoip', function() {
           source: '66.6.44.4',
           target: 'geoip',
           database: path.join(__dirname, '../../GeoIP/GeoLiteCity.dat')
-        }
+        },
+        {}
       );
 
       res
