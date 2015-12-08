@@ -1,6 +1,5 @@
-var path = require('path');
 require('chai').should();
-var uut = require('../lib/streamFromRecipe');
+var uut = require('../../lib/streamFromRecipe');
 
 var recipes = [
   {
@@ -13,17 +12,17 @@ var recipes = [
     },
     output: {
       channel: 'gulp',
-      glob: path.join(__dirname, 'fixtures', 'output')
+      glob: '../fixtures/output'
     }
   }
 ];
 var connections = {};
 
-var channels = require('../lib/channels')(connections, recipes);
+var channels = require('../../lib/channels')(connections, recipes);
 
 describe('amqp channel', function() {
   it('should get queue count', function(done) {
-    this.timeout(10000);
+    this.timeout(40000);
 
     uut(recipes[0], connections, channels)
     .toArray(function(fileList) {

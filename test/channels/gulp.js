@@ -1,27 +1,27 @@
 var path = require('path');
 require('chai').should();
-var uut = require('../lib/streamFromRecipe');
+var uut = require('../../lib/streamFromRecipe');
 
 var recipes = [
   {
     name: 'read and write',
     input: {
       channel: 'gulp',
-      glob: path.join(__dirname, 'fixtures', 'file.json')
+      glob: path.join(__dirname, '..', 'fixtures', 'file.json')
     },
     output: {
       channel: 'gulp',
-      glob: path.join(__dirname, 'fixtures', 'output')
+      glob: path.join(__dirname, '..', 'fixtures', 'output')
     }
   },
   {
     input: {
       channel: 'gulp',
-      glob: path.join(__dirname, 'fixtures', 'file.json')
+      glob: path.join(__dirname, '..', 'fixtures', 'file.json')
     },
     output: {
       channel: 'gulp',
-      glob: path.join(__dirname, 'fixtures', 'output')
+      glob: path.join(__dirname, '..', 'fixtures', 'output')
     },
     filter: [
       {
@@ -46,7 +46,7 @@ var recipes = [
   {
     input: {
       channel: 'gulp',
-      glob: path.join(__dirname, 'fixtures', 'file3.json')
+      glob: path.join(__dirname, '..', 'fixtures', 'file3.json')
     },
     output: {
       channel: 'runRecipe',
@@ -55,7 +55,7 @@ var recipes = [
     filter: [
       {
         mutate: {
-          source: path.join(__dirname, 'fixtures', '#{filename}'),
+          source: path.join(__dirname, '..', 'fixtures', '#{filename}'),
           target: 'glob'
         }
       }
@@ -63,7 +63,7 @@ var recipes = [
   }
 ];
 var connections = {};
-var channels = require('../lib/channels')(connections, recipes);
+var channels = require('../../lib/channels')(connections, recipes);
 
 describe('gulp channel', function() {
   it('should read and write a file', function(done) {

@@ -1,6 +1,5 @@
-var path = require('path');
 require('chai').should();
-var uut = require('../lib/streamFromRecipe');
+var uut = require('../../lib/streamFromRecipe');
 
 var recipes = [
   {
@@ -32,7 +31,7 @@ var recipes = [
     },
     output: {
       channel: 'gulp',
-      glob: path.join(__dirname, 'fixtures', 'output')
+      glob: '../fixtures/output'
     }
   }
 ];
@@ -47,7 +46,7 @@ var connections = {
   }
 };
 
-var channels = require('../lib/channels')(connections, recipes);
+var channels = require('../../lib/channels')(connections, recipes);
 
 describe('elasticsearch channel', function() {
   it('should query', function(done) {
