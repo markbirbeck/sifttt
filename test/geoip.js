@@ -1,6 +1,6 @@
 var path = require('path');
 require('chai').should();
-var uut = require('../lib/geoip');
+var uut = require('../lib/filters/geoip');
 
 describe('geoip', function() {
   describe('IP should be in New York', function() {
