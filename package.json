@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha",
-    "preversion": "npm test"
+    "preversion": "npm test",
+    "docktest": "docker run -it -v \"${PWD}\":/usr/src/app --env-file=.env sifttt npm test"
   },
   "keywords": [
     "gulpfriendly"
