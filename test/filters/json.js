@@ -29,31 +29,4 @@ describe('json', function() {
     }).should.throw('Unable to parse JSON from \'c\': SyntaxError: Unexpected' +
       ' end of input');
   });
-
-  describe('conditional', function() {
-    it('property does not exist', function() {
-      uut(
-        {
-          'if': '#{missingProperty}',
-          source: 'a',
-          target: 'b'
-        },
-        {a: '{"c": 1}'}
-      )
-        .should.eql({a: '{"c": 1}'});
-    });
-
-    it('property does exist', function() {
-      uut(
-        {
-          'if': '#{c}',
-          source: 'a',
-          target: 'b'
-        },
-        {a: '{"c": 1}', c: true}
-      )
-        .should.eql({a: '{"c": 1}', b: {c: 1}, c: true});
-    });
-  });
-
 });
