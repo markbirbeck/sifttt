@@ -1,6 +1,6 @@
 var path = require('path');
 require('chai').should();
-var uut = require('../lib/filters/geoip');
+var uut = require('../../lib/filters/geoip');
 
 describe('geoip', function() {
   describe('IP should be in New York', function() {
@@ -9,7 +9,7 @@ describe('geoip', function() {
         {
           source: '66.6.44.4',
           target: 'geoip',
-          database: path.join(__dirname, '../GeoIP/GeoLiteCity.dat')
+          database: path.join(__dirname, '../../GeoIP/GeoLiteCity.dat')
         }
       );
 
@@ -25,7 +25,7 @@ describe('geoip', function() {
         {
           source: '#{clientip}',
           target: 'geoip',
-          database: path.join(__dirname, '../GeoIP/GeoLiteCity.dat')
+          database: path.join(__dirname, '../../GeoIP/GeoLiteCity.dat')
         },
         {clientip: '66.6.44.4'}
       );

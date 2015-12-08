@@ -1,5 +1,5 @@
 require('chai').should();
-var uut = require('../lib/filters/mutate');
+var uut = require('../../lib/filters/mutate');
 
 describe('mutate', function() {
   describe('assign', function() {

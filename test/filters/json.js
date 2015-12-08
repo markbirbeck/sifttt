@@ -1,5 +1,5 @@
 require('chai').should();
-var uut = require('../lib/filters/json');
+var uut = require('../../lib/filters/json');
 
 describe('json', function() {
   it('parse ok', function() {
