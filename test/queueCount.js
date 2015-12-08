@@ -23,6 +23,8 @@ var channels = require('../lib/channels')(connections, recipes);
 
 describe('amqp channel', function() {
   it('should get queue count', function(done) {
+    this.timeout(10000);
+
     uut(recipes[0], connections, channels)
     .toArray(function(fileList) {
       fileList.should.have.length(1);
