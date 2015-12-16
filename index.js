@@ -38,7 +38,7 @@ module.exports = function(gulp, connections, recipes, defaultTaskDependencies) {
     console.log(`Creating default task with ${tasks}`);
 
     gulp.task('default', cb => {
-      let taskList = [];
+      let childList = [];
 
       tasks.forEach(taskName => {
         let task = spawn('gulp', [taskName, '--spawn']);
@@ -57,9 +57,24 @@ module.exports = function(gulp, connections, recipes, defaultTaskDependencies) {
           } else {
             console.log(`task '${taskName}' exited successfully`);
           }
+
+          /**
+           * Terminate all tasks before we exit:
+           */
+
+          childList.forEach(child => {
+            console.warn(`killing task '${child.name}'`);
+            child.task.kill();
+          });
+
+          /**
+           * Propagate the error code:
+           */
+
+          process.exit(code);
         });
 
-        taskList.push(task);
+        childList.push({name: taskName, task});
       })
     });
   }
