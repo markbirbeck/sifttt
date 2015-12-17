@@ -44,18 +44,18 @@ module.exports = function(gulp, connections, recipes, defaultTaskDependencies) {
         let task = spawn('gulp', [taskName, '--spawn']);
 
         task.stdout.on('data', data => {
-          console.log(`stdin for task '${taskName}': ${data}`);
+          console.log(`[${taskName}]: ${data}`);
         });
 
         task.stderr.on('data', data => {
-          console.error(`stderr for task '${taskName}': ${data}`);
+          console.error(`[${taskName}]: error: ${data}`);
         });
 
         task.on('close', code => {
           if (code !== 0) {
-            console.error(`task '${taskName}' exited: ${code}`);
+            console.error(`[${taskName}]: exited with error: ${code}`);
           } else {
-            console.log(`task '${taskName}' exited successfully`);
+            console.log(`[${taskName}]: exited successfully`);
           }
 
           /**
@@ -63,7 +63,7 @@ module.exports = function(gulp, connections, recipes, defaultTaskDependencies) {
            */
 
           childList.forEach(child => {
-            console.warn(`killing task '${child.name}'`);
+            console.warn(`killing child task '${child.name}'`);
             child.task.kill();
           });
 
