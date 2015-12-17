@@ -9,7 +9,8 @@
     "docker": "docker run -it -v \"${PWD}\":/usr/src/app --env-file=.env sifttt"
   },
   "keywords": [
-    "gulpfriendly"
+    "gulpfriendly",
+    "siftttfriendly"
   ],
   "author": "Mark Birbeck <mark.birbeck@gmail.com> (http://markbirbeck.com/)",
   "license": "MIT",
