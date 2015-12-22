@@ -93,6 +93,40 @@ describe('override parameters', function() {
     extendedBounds.should.have.property('max', '2015-12-18');
   });
 
+  describe('escape key names', () => {
+    it('should use default escaping', () => {
+      let command = [
+        'gulp search',
+        '--override=input.glob.body.query.filtered.filter.bool.must[0].term.instrument___os=iOS'
+      ];
+      let result = uut(obj, minimist(command).override);
+
+      result.should.have.deep.property('input.glob.body.query.filtered.filter.bool.must');
+
+      let must = result
+      .input.glob.body.query.filtered.filter.bool.must;
+
+      must.should.have.length(1);
+      must[0].term.should.have.property('instrument.os', 'iOS');
+    });
+
+    it('should use custom escaping', () => {
+      let command = [
+        'gulp search',
+        '--override=input.glob.body.query.filtered.filter.bool.must[0].term.instrument_toDot_os=iOS'
+      ];
+      let result = uut(obj, minimist(command).override, '_toDot_');
+
+      result.should.have.deep.property('input.glob.body.query.filtered.filter.bool.must');
+
+      let must = result
+      .input.glob.body.query.filtered.filter.bool.must;
+
+      must.should.have.length(1);
+      must[0].term.should.have.property('instrument.os', 'iOS');
+    });
+  });
+
   describe('default should be', function() {
     let objWithDefault;
 
