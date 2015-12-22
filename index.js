@@ -15,7 +15,7 @@ module.exports = function(gulp, connections, recipes, defaultTaskDependencies) {
   var channels = require('./lib/channels')(connections, recipes);
 
   recipes.forEach(function(recipe) {
-    addRecipe(gulp, recipe, connections, channels, opts);
+    addRecipe(gulp, recipe, connections, channels, opts.override);
   });
 
   /**
