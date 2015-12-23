@@ -27,4 +27,11 @@ describe('api', function() {
     .expect(200, {hello: 'world'}, done)
     ;
   });
+
+  it('return different file by overriding parameter', function(done) {
+    request
+    .get(`/file?override=input.glob=${path.join(__dirname, '..', 'fixtures', 'file2.json')}`)
+    .expect(200, {hello: 'there'}, done)
+    ;
+  });
 });
