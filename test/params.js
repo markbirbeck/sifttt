@@ -186,5 +186,21 @@ describe('override parameters', function() {
       must[1].term.should.have.property('name', 'Google');
       must[2].term.should.have.property('country', 'UK');
     });
+
+    it('numeric parameters should be converted', () => {
+      let command = [
+        'gulp search',
+        '--override=input.glob.body.query.filtered.filter.bool.must[0].term.additionalType=SearchCompany',
+        '--override=input.glob.body.query.filtered.filter.bool.must[1].term.name=Google',
+        '--override=input.glob.body.query.filtered.filter.bool.must[2].term.country=UK',
+        '--override=input.glob.body.aggs.plays.geohash_grid.precision=7'
+      ];
+      let result = uut(obj, minimist(command).override);
+      let precision = result
+      .input.glob.body.aggs.plays.geohash_grid.precision;
+
+      precision.should.be.a('number');
+      precision.should.equal(7);
+    });
   });
 });
