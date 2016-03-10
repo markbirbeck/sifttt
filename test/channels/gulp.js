@@ -91,7 +91,7 @@ describe('gulp channel', function() {
     ;
   });
 
-  it.only('should not fail with non-JSON', function(done) {
+  it('should not fail with non-JSON', function(done) {
     uut(recipes[1], connections, channels)
     .toArray(function(fileList) {
       fileList.should.have.length(1);
