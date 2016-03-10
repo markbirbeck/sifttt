@@ -15,6 +15,17 @@ var recipes = [
     }
   },
   {
+    name: 'read and write non-JSON',
+    input: {
+      channel: 'gulp',
+      glob: path.join(__dirname, '..', 'fixtures', 'file.txt')
+    },
+    output: {
+      channel: 'gulp',
+      glob: path.join(__dirname, '..', 'fixtures', 'output')
+    }
+  },
+  {
     input: {
       channel: 'gulp',
       glob: path.join(__dirname, '..', 'fixtures', 'file.json')
@@ -80,8 +91,22 @@ describe('gulp channel', function() {
     ;
   });
 
-  it('should mutate a file', function(done) {
+  it.only('should not fail with non-JSON', function(done) {
     uut(recipes[1], connections, channels)
+    .toArray(function(fileList) {
+      fileList.should.have.length(1);
+      fileList.forEach(function(file) {
+        var content = String(file.contents);
+
+        content.should.eql('This is not JSON.\n');
+      });
+      done();
+    })
+    ;
+  });
+
+  it('should mutate a file', function(done) {
+    uut(recipes[2], connections, channels)
     .toArray(function(fileList) {
       fileList.should.have.length(1);
       fileList.forEach(function(file) {
@@ -97,7 +122,7 @@ describe('gulp channel', function() {
   it('should run a recipe', function(done) {
     var fileList = [];
 
-    uut(recipes[2], connections, channels)
+    uut(recipes[3], connections, channels)
 
     /**
      * For some reason we can't use toArray() when we have nested recipes:
