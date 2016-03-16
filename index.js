@@ -4,6 +4,7 @@ let spawn = require('child_process').spawn;
 var minimist = require('minimist');
 var addRecipe = require('./lib/addRecipe');
 var createApi = require('./lib/api');
+let codecs = require('./lib/codecs');
 
 /**
  * Pass any command-line options in to addRecipe():
@@ -15,7 +16,7 @@ module.exports = function(gulp, connections, recipes, defaultTaskDependencies) {
   var channels = require('./lib/channels')(connections, recipes);
 
   recipes.forEach(function(recipe) {
-    addRecipe(gulp, recipe, connections, channels, opts);
+    addRecipe(gulp, recipe, connections, codecs, channels, opts);
   });
 
   /**
