@@ -34,4 +34,50 @@ describe('api', function() {
     .expect(200, {hello: 'there'}, done)
     ;
   });
+
+  describe('cors', function() {
+    it('does not return a CORS header by default', function(done) {
+      request
+      .get('/file')
+      .set('Origin', 'localhost')
+      .expect((res) => { if ('access-control-allow-origin' in res.headers) throw new Error; })
+      .end(done)
+      ;
+    });
+
+    // TODO: Work out how best to test these cases which rely on environment variables.
+
+    xit('returns a wildcard CORS header', function(done) {
+      // Set CORS_ENABLED
+
+      request
+      .get('/file')
+      .set('Origin', 'localhost')
+      .expect('Access-Control-Allow-Origin', '*')
+      .end(done)
+      ;
+    });
+
+    xit('returns an origin-mirroring CORS header', function(done) {
+      // Set CORS_ORIGIN
+
+      request
+      .get('/file')
+      .set('Origin', 'localhost')
+      .expect('Access-Control-Allow-Origin', 'localhost')
+      .end(done)
+      ;
+    });
+
+    xit('returns a credentials CORS header', function(done) {
+      // Set CORS_CREDENTIALS
+
+      request
+      .get('/file')
+      .set('Origin', 'localhost')
+      .expect('Access-Control-Allow-Credentials', 'true')
+      .end(done)
+      ;
+    });
+  });
 });
