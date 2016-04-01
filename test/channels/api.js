@@ -18,7 +18,7 @@ var connections = {};
 var channels = require('../../lib/channels')(connections, [recipe]);
 
 var api = uut([recipe], connections, channels);
-var request = supertest(api());
+var request = supertest(api().app);
 
 describe('api', function() {
   it('return file using recipe', function(done) {
