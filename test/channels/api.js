@@ -40,7 +40,18 @@ describe('api', function() {
       request
       .get('/file')
       .set('Origin', 'localhost')
-      .expect((res) => { if ('access-control-allow-origin' in res.headers) throw new Error; })
+      .expect(res => {
+
+        /**
+         * Be careful here...when using SuperTest's expect() method then the
+         * header can be 'Access-Control-Allow-Origin', but when testing a
+         * property directly, we have to be sure to use the same case as
+         * SuperTest:
+         */
+
+        res.headers
+        .should.not.have.property('access-control-allow-origin');
+      })
       .end(done)
       ;
     });
