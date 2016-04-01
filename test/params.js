@@ -6,7 +6,7 @@ let uut = require('../lib/params');
 describe('override parameters', function() {
   let obj;
 
-  beforeEach(() => { obj ={}; });
+  beforeEach(() => { obj = {}; });
 
   it('items on non-array should be merged', () => {
     let command = [
