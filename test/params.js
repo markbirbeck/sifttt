@@ -6,7 +6,7 @@ let uut = require('../lib/params');
 describe('override parameters', function() {
   let obj;
 
-  beforeEach(() => { obj ={}; });
+  beforeEach(() => { obj = {}; });
 
   it('items on non-array should be merged', () => {
     let command = [
@@ -170,7 +170,7 @@ describe('override parameters', function() {
       must[2].term.should.have.property('country', 'UK');
     });
 
-    it('overritten if array index is set equal', () => {
+    it('overwritten if array index is set equal', () => {
       let command = [
         'gulp search',
         '--override=input.glob.body.query.filtered.filter.bool.must[0].term.additionalType=SearchCompany',
