@@ -110,7 +110,7 @@ describe('api', function() {
       request
       .get('/file')
       .set('Origin', 'localhost')
-      .expect('Access-Control-Allow-Origin', 'localhost')
+      .expect('Access-Control-Allow-Origin', 'http://localhost')
       .end(done)
       ;
     });
