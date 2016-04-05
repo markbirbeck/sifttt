@@ -14,7 +14,7 @@
   ],
   "author": "Mark Birbeck <mark.birbeck@gmail.com> (http://markbirbeck.com/)",
   "license": "MIT",
-  "repository": "markbirbeck/sifttt",
+  "repository": "https://github.com/markbirbeck/sifttt",
   "bugs": "https://github.com/markbirbeck/sifttt/issues",
   "homepage": "https://github.com/markbirbeck/sifttt",
   "dependencies": {
