@@ -14,11 +14,12 @@ var recipe = {
   }
 };
 var connections = {};
+var codecs = {};
 var channels = require('../lib/channels')(connections, [recipe]);
 
 describe('command-line options', function() {
   it('should work without options', function(done) {
-    uut(recipe, connections, channels)
+    uut(recipe, connections, codecs, channels)
     .toArray(function(fileList) {
       fileList.should.have.length(1);
       fileList.forEach(function(file) {
@@ -32,7 +33,7 @@ describe('command-line options', function() {
   });
 
   it('should work with empty options', function(done) {
-    uut(recipe, connections, channels)
+    uut(recipe, connections, codecs, channels)
     .toArray(function(fileList) {
       fileList.should.have.length(1);
       fileList.forEach(function(file) {
@@ -46,7 +47,7 @@ describe('command-line options', function() {
   });
 
   it('option to override glob', function(done) {
-    uut(recipe, connections, channels,
+    uut(recipe, connections, codecs, channels,
       {override: `input.glob=${path.join(__dirname, 'fixtures', 'file2.json')}`})
     .toArray(function(fileList) {
       fileList.should.have.length(1);

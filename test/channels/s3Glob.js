@@ -24,7 +24,7 @@ var recipes = [
   }
 ];
 var connections = {};
-
+var codecs = {};
 var channels = require('../../lib/channels')(connections, recipes);
 
 describe('s3Glob channel', function() {
@@ -32,7 +32,7 @@ describe('s3Glob channel', function() {
     this.timeout(10000);
     let count = 0;
 
-    uut(recipes[0], connections, channels)
+    uut(recipes[0], connections, codecs, channels)
     .each(() => count++)
     .done(() => {
       count

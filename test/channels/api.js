@@ -16,6 +16,7 @@ var recipe = {
   }
 };
 var connections = {};
+var codecs = {};
 var channels = require('../../lib/channels')(connections, [recipe]);
 
 let api;
@@ -27,7 +28,7 @@ describe('api', function() {
   });
 
   it('return file using recipe', function(done) {
-    api = uut([recipe], connections, channels)();
+    api = uut([recipe], connections, codecs, channels)();
     request = supertest(api.app);
 
     request
@@ -37,7 +38,7 @@ describe('api', function() {
   });
 
   it('return different file by overriding parameter', function(done) {
-    api = uut([recipe], connections, channels)();
+    api = uut([recipe], connections, codecs, channels)();
     request = supertest(api.app);
 
     request
@@ -65,7 +66,7 @@ describe('api', function() {
     });
 
     it('does not return a CORS header by default', function(done) {
-      api = uut([recipe], connections, channels)();
+      api = uut([recipe], connections, codecs, channels)();
       request = supertest(api.app);
 
       request
@@ -90,7 +91,7 @@ describe('api', function() {
     it('returns a wildcard CORS header', function(done) {
       process.env.CORS_ENABLED = true;
       process.env.CORS_ORIGIN = '*';
-      api = uut([recipe], connections, channels)();
+      api = uut([recipe], connections, codecs, channels)();
       request = supertest(api.app);
 
       request
@@ -104,7 +105,7 @@ describe('api', function() {
     it('returns an origin-mirroring CORS header', function(done) {
       process.env.CORS_ENABLED = true;
       process.env.CORS_ORIGIN = 'http://localhost';
-      api = uut([recipe], connections, channels)();
+      api = uut([recipe], connections, codecs, channels)();
       request = supertest(api.app);
 
       request
@@ -119,7 +120,7 @@ describe('api', function() {
       process.env.CORS_ENABLED = true;
       process.env.CORS_ORIGIN = 'http://localhost';
       process.env.CORS_CREDENTIALS = true;
-      api = uut([recipe], connections, channels)();
+      api = uut([recipe], connections, codecs, channels)();
       request = supertest(api.app);
 
       request

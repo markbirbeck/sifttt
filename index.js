@@ -13,7 +13,7 @@ let codecs = require('./lib/codecs');
 var opts = minimist(process.argv.slice(2));
 
 module.exports = function(gulp, connections, recipes, defaultTaskDependencies) {
-  var channels = require('./lib/channels')(connections, recipes);
+  var channels = require('./lib/channels')(connections, codecs, recipes);
 
   recipes.forEach(function(recipe) {
     addRecipe(gulp, recipe, connections, codecs, channels, opts);
@@ -23,7 +23,7 @@ module.exports = function(gulp, connections, recipes, defaultTaskDependencies) {
    * Add a task that exposes all recipes as endpoints on an API:
    */
 
-  gulp.task('api', createApi(recipes, connections, channels));
+  gulp.task('api', createApi(recipes, connections, codecs, channels));
 
   /**
    * If there is a list of dependencies for the default task then create

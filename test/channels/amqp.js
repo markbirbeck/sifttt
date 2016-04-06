@@ -17,14 +17,14 @@ var recipes = [
   }
 ];
 var connections = {};
-
+var codecs = {};
 var channels = require('../../lib/channels')(connections, recipes);
 
 describe('amqp channel', function() {
   it('should get queue count', function(done) {
     this.timeout(40000);
 
-    uut(recipes[0], connections, channels)
+    uut(recipes[0], connections, codecs, channels)
     .toArray(function(fileList) {
       fileList.should.have.length(1);
       fileList.forEach(function(file) {
