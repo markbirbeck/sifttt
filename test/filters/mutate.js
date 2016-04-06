@@ -1,3 +1,9 @@
+/**
+ * Test mutate filter.
+ *
+ * Note that the conditional tests are in their own file.
+ */
+
 require('chai').should();
 var uut = require('../../lib/filters/mutate');
 
@@ -25,6 +31,14 @@ describe('mutate', function() {
         {'a': 1, 'b': 'world'}
       )
         .should.eql({'a': 'hello, world!', 'b': 'world'});
+    });
+
+    it('with multiple expressions', function() {
+      uut(
+        {'source': '#{b}, #{c}!', 'target': 'a'},
+        {'a': 1, 'b': 'hello', 'c': 'world'}
+      )
+        .should.eql({'a': 'hello, world!', 'b': 'hello', 'c': 'world'});
     });
 
     it('with direct assignment', function() {

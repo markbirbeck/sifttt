@@ -28,6 +28,19 @@ describe('conditional', function() {
       )
       .should.eql({'a': 'hello, world!', 'b': 2});
     });
+
+    it('property does exist and is false', function() {
+      uut
+      .mutate(
+        {
+          'if': '#{b}',
+          'source': 'hello, world!',
+          'target': 'a'
+        },
+        {'a': 1, 'b': false}
+      )
+      .should.eql({'a': 1, 'b': false});
+    });
   });
 
   describe('json', function() {
@@ -36,7 +49,7 @@ describe('conditional', function() {
       .json(
         {
           'if': '#{missingProperty}',
-          source: 'a',
+          source: '#{a}',
           target: 'b'
         },
         {a: '{"c": 1}'}
@@ -49,7 +62,7 @@ describe('conditional', function() {
       .json(
         {
           'if': '#{c}',
-          source: 'a',
+          source: '#{a}',
           target: 'b'
         },
         {a: '{"c": 1}', c: true}
