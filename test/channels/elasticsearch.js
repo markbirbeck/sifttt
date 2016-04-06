@@ -45,14 +45,14 @@ var connections = {
     }
   }
 };
-
+var codecs = {};
 var channels = require('../../lib/channels')(connections, recipes);
 
 describe('elasticsearch channel', function() {
   it('should query', function(done) {
     this.timeout(10000);
 
-    uut(recipes[0], connections, channels)
+    uut(recipes[0], connections, codecs, channels)
     .toArray(function(fileList) {
       fileList.forEach(function(file) {
         var data = JSON.parse(String(file.contents));

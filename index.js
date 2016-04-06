@@ -4,6 +4,7 @@ let spawn = require('child_process').spawn;
 var minimist = require('minimist');
 var addRecipe = require('./lib/addRecipe');
 var createApi = require('./lib/api');
+let codecs = require('./lib/codecs');
 
 /**
  * Pass any command-line options in to addRecipe():
@@ -12,17 +13,17 @@ var createApi = require('./lib/api');
 var opts = minimist(process.argv.slice(2));
 
 module.exports = function(gulp, connections, recipes, defaultTaskDependencies) {
-  var channels = require('./lib/channels')(connections, recipes);
+  var channels = require('./lib/channels')(connections, codecs, recipes);
 
   recipes.forEach(function(recipe) {
-    addRecipe(gulp, recipe, connections, channels, opts);
+    addRecipe(gulp, recipe, connections, codecs, channels, opts);
   });
 
   /**
    * Add a task that exposes all recipes as endpoints on an API:
    */
 
-  gulp.task('api', createApi(recipes, connections, channels));
+  gulp.task('api', createApi(recipes, connections, codecs, channels));
 
   /**
    * If there is a list of dependencies for the default task then create

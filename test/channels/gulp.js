@@ -74,11 +74,12 @@ var recipes = [
   }
 ];
 var connections = {};
-var channels = require('../../lib/channels')(connections, recipes);
+var codecs = {};
+var channels = require('../../lib/channels')(connections, codecs, recipes);
 
 describe('gulp channel', function() {
   it('should read and write a file', function(done) {
-    uut(recipes[0], connections, channels)
+    uut(recipes[0], connections, codecs, channels)
     .toArray(function(fileList) {
       fileList.should.have.length(1);
       fileList.forEach(function(file) {
@@ -92,7 +93,7 @@ describe('gulp channel', function() {
   });
 
   it('should not fail with non-JSON', function(done) {
-    uut(recipes[1], connections, channels)
+    uut(recipes[1], connections, codecs, channels)
     .toArray(function(fileList) {
       fileList.should.have.length(1);
       fileList.forEach(function(file) {
@@ -106,7 +107,7 @@ describe('gulp channel', function() {
   });
 
   it('should mutate a file', function(done) {
-    uut(recipes[2], connections, channels)
+    uut(recipes[2], connections, codecs, channels)
     .toArray(function(fileList) {
       fileList.should.have.length(1);
       fileList.forEach(function(file) {
@@ -122,7 +123,7 @@ describe('gulp channel', function() {
   it('should run a recipe', function(done) {
     var fileList = [];
 
-    uut(recipes[3], connections, channels)
+    uut(recipes[3], connections, codecs, channels)
 
     /**
      * For some reason we can't use toArray() when we have nested recipes:
