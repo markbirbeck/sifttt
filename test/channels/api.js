@@ -89,8 +89,7 @@ describe('api', function() {
     });
 
     it('returns a wildcard CORS header', function(done) {
-      process.env.CORS_ENABLED = true;
-      process.env.CORS_ORIGIN = '*';
+      process.env.CORS_ENABLED = 'true';
       api = uut([recipe], connections, codecs, channels)();
       request = supertest(api.app);
 
@@ -102,30 +101,41 @@ describe('api', function() {
       ;
     });
 
+    it('returns a custom origin CORS header', function(done) {
+      process.env.CORS_ENABLED = 'true';
+      process.env.CORS_ORIGIN = "localhost";
+      api = uut([recipe], connections, codecs, channels)();
+      request = supertest(api.app);
+
+      request
+      .get('/file')
+      .expect('Access-Control-Allow-Origin', 'localhost')
+      .end(done)
+      ;
+    });
+
     it('returns an origin-mirroring CORS header', function(done) {
-      process.env.CORS_ENABLED = true;
-      process.env.CORS_ORIGIN = 'http://localhost';
+      process.env.CORS_ENABLED = 'true';
+      process.env.CORS_ORIGIN = 'true';
       api = uut([recipe], connections, codecs, channels)();
       request = supertest(api.app);
 
       request
       .get('/file')
       .set('Origin', 'localhost')
-      .expect('Access-Control-Allow-Origin', 'http://localhost')
+      .expect('Access-Control-Allow-Origin', 'localhost')
       .end(done)
       ;
     });
 
     it('returns a credentials CORS header', function(done) {
-      process.env.CORS_ENABLED = true;
-      process.env.CORS_ORIGIN = 'http://localhost';
-      process.env.CORS_CREDENTIALS = true;
+      process.env.CORS_ENABLED = 'true';
+      process.env.CORS_CREDENTIALS = 'true';
       api = uut([recipe], connections, codecs, channels)();
       request = supertest(api.app);
 
       request
       .get('/file')
-      .set('Origin', 'localhost')
       .expect('Access-Control-Allow-Credentials', 'true')
       .end(done)
       ;
