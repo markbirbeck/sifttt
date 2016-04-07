@@ -1,6 +1,6 @@
 # The default nodejs box:
 #
-box: wercker/nodejs
+box: node:4.3.2-onbuild
 # Build definition
 build:
   # The steps that will be executed on build
