@@ -2,6 +2,8 @@
 
 Create simple recipes to do simple tasks, using gulp.
 
+[![wercker status](https://app.wercker.com/status/b2afe59d6098b006d563f82f2b42fd78/s/master "wercker status")](https://app.wercker.com/project/bykey/b2afe59d6098b006d563f82f2b42fd78) [![Dependency Status](https://david-dm.org/markbirbeck/sifttt.svg)](https://david-dm.org/markbirbeck/sifttt)
+
 ## Adding Recipes
 
 Recipes are created in a gulp file, like this:
