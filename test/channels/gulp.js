@@ -50,6 +50,63 @@ var recipes = [
   },
 
   /**
+   * These two recipes pass multiple files through:
+   */
+
+  {
+    input: {
+      channel: 'gulp',
+      glob: path.join(__dirname, '..', 'fixtures', 'file?.json')
+    },
+    output: {
+      channel: 'gulp',
+      glob: path.join(__dirname, '..', 'fixtures', 'output')
+    },
+    filter: [
+      {
+        mutate: {
+          if: '#{hello}',
+          source: '#{hello}',
+          target: 'goodbye'
+        }
+      },
+      {
+        mutate: {
+          removeField: ['hello']
+        }
+      }
+    ]
+  },
+
+  {
+    input: {
+      channel: 'gulp',
+      glob: [
+        path.join(__dirname, '..', 'fixtures', 'file3.json'),
+        path.join(__dirname, '..', 'fixtures', 'file2.json')
+      ]
+    },
+    output: {
+      channel: 'gulp',
+      glob: path.join(__dirname, '..', 'fixtures', 'output')
+    },
+    filter: [
+      {
+        mutate: {
+          if: '#{filename}',
+          source: '#{filename}',
+          target: 'myname'
+        }
+      },
+      {
+        mutate: {
+          removeField: ['filename']
+        }
+      }
+    ]
+  },
+
+  /**
    * This recipe takes a filename from file3.json, and then uses that as the
    * 'glob' input to another recipe:
    */
@@ -120,10 +177,42 @@ describe('gulp channel', function() {
     ;
   });
 
+  describe('should mutate multiple files', function() {
+    it('using wildcard', function(done) {
+      uut(recipes[3], connections, codecs, channels)
+      .toArray(function(fileList) {
+        fileList.should.have.length(2);
+
+        JSON.parse(String(fileList[0].contents))
+        .should.eql({'goodbye': 'there'});
+
+        JSON.parse(String(fileList[1].contents))
+        .should.eql({'filename': 'file2.json'});
+        done();
+      })
+      ;
+    });
+
+    it('using a list', function(done) {
+      uut(recipes[4], connections, codecs, channels)
+      .toArray(function(fileList) {
+        fileList.should.have.length(2);
+
+        JSON.parse(String(fileList[0].contents))
+        .should.eql({'myname': 'file2.json'});
+
+        JSON.parse(String(fileList[1].contents))
+        .should.eql({'hello': 'there'});
+        done();
+      })
+      ;
+    });
+  });
+
   it('should run a recipe', function(done) {
     var fileList = [];
 
-    uut(recipes[3], connections, codecs, channels)
+    uut(recipes[5], connections, codecs, channels)
 
     /**
      * For some reason we can't use toArray() when we have nested recipes:
