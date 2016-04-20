@@ -1,4 +1,9 @@
 'use strict';
+
+/**
+ * Test the 'line' codec on its own, i.e., not in a recipe:
+ */
+
 var path = require('path');
 var fs = require('fs');
 require('chai').should();
@@ -85,7 +90,7 @@ describe('line codec', () => {
   });
 
   describe('should skip first line', () => {
-    let codec = uut(1);
+    let codec = uut({drop: 1});
 
     it('of a file', done => {
       h([
