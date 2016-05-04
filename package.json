@@ -38,7 +38,7 @@
     "stream-google-spreadsheet": "^0.5.0",
     "vinyl": "^1.1.1",
     "vinyl-amqp": "^0.10.1",
-    "vinyl-elasticsearch": "^1.8.0",
+    "vinyl-elasticsearch": "^1.8.1",
     "vinyl-s3": "^0.3.0"
   },
   "devDependencies": {
