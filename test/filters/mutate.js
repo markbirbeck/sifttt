@@ -57,6 +57,56 @@ describe('mutate', function() {
         );
       }).should.throw('Unable to assign to \'a\': Unknown expression:c');
     });
+
+    describe('nested', function() {
+      describe('source', function() {
+        it('one level', function() {
+          uut(
+            {'source': '#{a.c}', 'target': 'b'},
+            {'a': {'c': 1}, 'b': 2}
+          )
+          .should.eql({'a': {'c': 1}, 'b': 1});
+        });
+
+        it('two levels', function() {
+          uut(
+            {'source': '#{a.c.d}', 'target': 'b'},
+            {'a': {'c': {'d' : 1}}, 'b': 2}
+          )
+          .should.eql({'a': {'c': {'d': 1}}, 'b': 1});
+        });
+      });
+
+      describe('target', function() {
+        it('one level', function() {
+          uut(
+            {'source': 3, 'target': 'a.c'},
+            {'a': {'c': 1}, 'b': 2}
+          )
+          .should.eql({'a': {'c': 3}, 'b': 2});
+
+          uut(
+            {'source': 3, 'target': 'a.c'},
+            {'a': {}}
+          )
+          .should.eql({'a': {'c': 3}});
+        });
+
+        it('two levels', function() {
+          uut(
+            {'source': 3, 'target': 'a.c.d'},
+            {'a': {'c': {'d' : 1}}, 'b': 2}
+          )
+          .should.eql({'a': {'c': {'d': 3}}, 'b': 2});
+
+          uut(
+            {'source': 3, 'target': 'a.c.d'},
+            {'a': {}}
+          )
+          .should.eql({'a': {'c': {'d': 3}}});
+        });
+      });
+    });
   });
 
   describe('removeField', function() {
