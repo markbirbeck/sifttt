@@ -160,6 +160,26 @@ describe('mutate', function() {
         .should.eql({'a': '2015-11-06T11:06:23.000Z'});
     });
 
+    it('missing date', function() {
+      uut(
+        {'convert': {'a': 'date'}},
+        {'a': ''}
+      )
+      .should.eql({'a': ''});
+
+      uut(
+        {'convert': {'a': 'date'}},
+        {'a': undefined}
+      )
+      .should.eql({a: undefined});
+
+      uut(
+        {'convert': {'a': 'date'}},
+        {'a': null}
+      )
+      .should.eql({a: null});
+    });
+
     it('invalid', function() {
       (function() {
         uut(
