@@ -2,7 +2,7 @@
 require('chai').should();
 let uut = require('../../lib/filters/geohash');
 
-describe.only('geohash', () => {
+describe('geohash', () => {
   describe('decode', () => {
     it('precision 3', () => {
       uut(
