@@ -51,12 +51,27 @@ describe('line codec in a recipe', function() {
       ar
       .map(file => JSON.parse(String(file.contents)))
       .should.eql([
-        {'greeting': 'hello'},
-        {'greeting': 'bonjour'},
-        {'greeting': 'howdy'},
+        {
+          'message': 'hello',
+          'greeting': 'hello'
+        },
+        {
+          'message': 'bonjour',
+          'greeting': 'bonjour'
+        },
+        {
+          'message': 'howdy',
+          'greeting': 'howdy'
+        },
 
-        {'greeting': 'wotcha'},
-        {'greeting': 'bona sera'}
+        {
+          'message': 'wotcha',
+          'greeting': 'wotcha'
+        },
+        {
+          'message': 'bona sera',
+          'greeting': 'bona sera'
+        }
       ]);
     })
     .done(done)
