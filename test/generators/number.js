@@ -102,6 +102,19 @@ describe('number generator', () => {
     });
   });
 
+  describe('handles strings', () => {
+
+    /**
+     * Count up from 2 to 10 in 2s:
+     */
+
+    h(uut('2', '10', '2'))
+    .toArray(ar => {
+      ar.should.eql([2, 4, 6, 8]);
+    })
+    ;
+  });
+
   /**
    * Tests from https://lodash.com/docs#range:
    */
