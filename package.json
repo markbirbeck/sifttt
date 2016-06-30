@@ -39,6 +39,7 @@
     "objnest": "^2.0.3",
     "s3-glob": "^0.2.0",
     "stream-google-spreadsheet": "^0.5.0",
+    "universal-analytics": "^0.3.11",
     "vinyl": "^1.1.1",
     "vinyl-amqp": "^0.10.1",
     "vinyl-elasticsearch": "^1.9.0",
