@@ -30,7 +30,7 @@ var recipes = [
       }
     },
     output: {
-      channel: 'gulp',
+      channel: 'echo',
       glob: '../fixtures/output'
     }
   }
@@ -50,18 +50,13 @@ var channels = require('../../lib/channels')(connections, recipes);
 
 describe('elasticsearch channel', function() {
   it('should query', function(done) {
-    this.timeout(10000);
-
     uut(recipes[0], connections, codecs, channels)
     .toArray(function(fileList) {
       fileList.forEach(function(file) {
         var data = JSON.parse(String(file.contents));
 
         data
-        .should.have.deep.property('aggregations.actions.buckets')
-        .that.is.an('array');
-        data
-        .should.have.deep.property('hits.hits')
+        .should.have.deep.property('actions.buckets')
         .that.is.an('array');
       });
       done();
