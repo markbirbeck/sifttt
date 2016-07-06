@@ -30,8 +30,7 @@ var recipes = [
       }
     },
     output: {
-      channel: 'echo',
-      glob: '../fixtures/output'
+      channel: 'noop'
     }
   }
 ];
