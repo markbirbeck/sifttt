@@ -23,7 +23,6 @@
     "csv-parse": "^1.0.4",
     "elasticsearch": "^11.0.1",
     "evaljson": "^2.0.0",
-    "event-stream": "^3.3.2",
     "express": "^4.13.4",
     "forecastio": "^1.0.1",
     "gulp": "^3.9.1",
