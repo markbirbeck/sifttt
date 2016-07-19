@@ -110,6 +110,21 @@ describe('override parameters', function() {
       must[0].term.should.have.property('instrument.os', 'iOS');
     });
 
+    it('should use default escaping multiple times', () => {
+      let command = [
+        'gulp search',
+        '--override=input.glob.body.query.bool.filter.term.agent___givenName___raw=Frank'
+      ];
+      let result = uut(obj, minimist(command).override);
+
+      result.should.have.deep.property('input.glob.body.query.bool.filter.term');
+
+      let must = result
+      .input.glob.body.query.bool.filter.term;
+
+      must.should.have.property('agent.givenName.raw', 'Frank');
+    });
+
     it('should use custom escaping', () => {
       let command = [
         'gulp search',
