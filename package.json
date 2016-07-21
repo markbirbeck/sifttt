@@ -33,6 +33,7 @@
     "maxmind-geolite-mirror": "^1.0.5",
     "minimist": "^1.2.0",
     "moment": "^2.13.0",
+    "mysql": "^2.11.1",
     "ngeohash": "^0.6.0",
     "node-geocoder": "^3.12.0",
     "node-schedule": "^1.1.1",
