@@ -61,6 +61,23 @@ describe('date generator', () => {
         })
         ;
       });
+
+      it('unit and format', () => {
+
+        /**
+         * count up from 10pm on January 29th to 1am on January 30th, in hours:
+         */
+
+        h(uut('2016-01-29T22:00', '2016-01-30T01:00', 1, 'hours', 'YYYY-MM-DDTHH:mm'))
+        .toArray(ar => {
+          ar.should.eql([
+            '2016-01-29T22:00',
+            '2016-01-29T23:00',
+            '2016-01-30T00:00'
+          ]);
+        })
+        ;
+      });
     });
 
     describe('descending', () => {
