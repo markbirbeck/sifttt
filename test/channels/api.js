@@ -37,14 +37,31 @@ describe('api', function() {
     ;
   });
 
-  it('return different file by overriding parameter', function(done) {
-    api = uut([recipe], connections, codecs, channels)();
-    request = supertest(api.app);
+  describe('params', function() {
+    it('return different file by overriding parameter', function(done) {
+      api = uut([recipe], connections, codecs, channels)();
+      request = supertest(api.app);
 
-    request
-    .get(`/file?override=input.glob=${path.join(__dirname, '..', 'fixtures', 'file2.json')}`)
-    .expect(200, {hello: 'there'}, done)
-    ;
+      request
+      .get(`/file?override=input.glob=${path.join(__dirname, '..', 'fixtures', 'file2.json')}`)
+      .expect(200, {hello: 'there'}, done)
+      ;
+    });
+
+    it('ensure parameter overrides do not overwrite the recipe', function(done) {
+      api = uut([recipe], connections, codecs, channels)();
+      request = supertest(api.app);
+
+      request
+      .get(`/file?override=input.glob=${path.join(__dirname, '..', 'fixtures', 'file2.json')}`)
+      .expect(200, {hello: 'there'})
+      ;
+
+      request
+      .get('/file')
+      .expect(200, {hello: 'world'}, done)
+      ;
+    });
   });
 
   describe('cors', function() {
