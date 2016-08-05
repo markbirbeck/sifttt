@@ -28,7 +28,7 @@
     "express": "^4.13.4",
     "forecastio": "^1.0.1",
     "gulp": "^3.9.1",
-    "highland": "^2.7.3",
+    "highland": "^2.9.0",
     "iso-3166-2": "^0.4.0",
     "lodash": "^4.8.2",
     "maxmind": "^0.6.0",
