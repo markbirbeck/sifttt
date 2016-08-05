@@ -1,20 +1,40 @@
 'use strict';
 const h = require('highland');
 
-const Pipeline = require('./lib/Pipeline');
-const CompositeTransform = require('./lib/CompositeTransform');
+let Collection = require('./lib/Collection');
+let Pipeline = require('./lib/Pipeline');
+let CompositeTransform = require('./lib/CompositeTransform');
 
 /**
  * A transform that increments a field:
  */
 
-let incrementTransform = fieldName => {
+let incrementTransformx = fieldName => {
   return s => s
   .doto(element => {
     element[fieldName] = element[fieldName] || 0;
     element[fieldName]++;
   })
   ;
+};
+
+class Transform {
+  constructor(doto) {
+    this.doto = doto;
+  }
+
+  apply2() {
+    console.log('Transform.apply2');
+    return s => s
+    .through(this.doto);
+  }
+};
+
+let incrementTransform = fieldName => {
+  return new Transform(element => {
+    element[fieldName] = element[fieldName] || 0;
+    element[fieldName]++;
+  });
 };
 
 /**
@@ -28,66 +48,47 @@ let inputCollectionx = s => s
 ;
 
 /**
- * Or we can return a duplex stream:
- */
-
-let inputCollection = () => {
-  return h([{count: 200000, mumsy: 99}]);
-};
-
-/**
  * An output writer that just logs each element of a collection:
  */
 
-let outputWriter = s => s
+let outputWriterx = s => s
 .doto(element => {
   console.log('outputWriter:', element);
 })
 ;
 
+let outputWriter = new Transform(element => {
+  console.log('outputWriter using classes:', element);
+});
+
 /**
  * A transform has one or more steps:
  */
+
 let transform = new CompositeTransform()
 .apply(incrementTransform('count'))
-// .apply(incrementTransform('parrot'))
-// .apply(incrementTransform('dad'))
-;
-
-/**
- * A pipeline that has its own input, and a few transform steps:
- */
-
-// let pipeline = s => s
-// .through(inputCollection())
-// .through(transform)
-// .through(outputWriter)
-// ;
-
-/**
- * General pipeline runner:
- */
-
-// pipeline.run = function(_params) {
-//   return h([_params])
-//   .doto(params => {
-//     console.log('About to run command:', params);
-//   })
-//   .through(this)
-//   ;
-// }
-
-let pipeline = new Pipeline({cmd: 'do something!!'})
-.apply(inputCollection())
-.apply(outputWriter)
 .apply(incrementTransform('parrot'))
-.apply(outputWriter)
-.apply(transform.apply2())
-.apply(outputWriter)
+.apply(incrementTransform('dad'))
 ;
 
-// let result = pipeline.run({cmd: 'do something!!'});
-/*let result =*/ pipeline.run();
+new Pipeline({cmd: 'do something!!'})
+.apply(new Collection([{count: 2001, mumsy: 99000}]))
+.apply(incrementTransform('mumsy'))
+.apply(incrementTransform('parrot'))
+.apply(transform)
+.apply(outputWriter)
+.run(/*() => {
+  new Pipeline({cmd: 'do something else!!'})
+  .apply(new Collection([{count: 20009, mumsy: 99000}]))
+  .apply(transform)
+  .apply(incrementTransform('mumsy'))
+  .apply(incrementTransform('dad'))
+  .apply(outputWriter)
+  .run()
+  ;
+}*/)
+;
+
 
 /*
 sifttt()
