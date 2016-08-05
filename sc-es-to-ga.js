@@ -1,6 +1,8 @@
 'use strict';
 const h = require('highland');
 
+const Pipeline = require('./lib/Pipeline');
+
 /**
  * A transform that increments a field:
  */
@@ -74,33 +76,6 @@ let transform = s => s
 //   .through(this)
 //   ;
 // }
-
-class Pipeline {
-  constructor(params) {
-    this.params = [params || {}];
-    this.pipeline = h();
-  }
-
-  apply(transform) {
-    this.pipeline = this.pipeline
-    .through(transform)
-    ;
-
-    return this;
-  }
-
-  run() {
-    return h(this.params)
-    .doto(params => {
-      console.log('About to run command in Pipeline:', params);
-    })
-    .through(this.pipeline)
-    .done(() => {
-      console.log('All Done');
-    })
-    ;
-  }
-};
 
 let pipeline = new Pipeline({cmd: 'do something!!'})
 .apply(inputCollection())
