@@ -9,10 +9,11 @@ require('chai').should();
 const h = require('highland');
 
 /**
- * In Beam parlance the data source is an input collection, to which things
- * are applied:
+ * In Beam parlance the data source is an input collection, which is
+ * a special kind of transform for a Pipeline:
  *
- *  new InputCollection([1, 2, 3, 4])
+ *  new Pipeline()
+ *  .apply(new InputCollection([1, 2, 3, 4]))
  *  .apply(Doto(element => {
  *    console.log(`Got an element: ${JSON.stringify(element)}`);
  *  }))
@@ -29,61 +30,18 @@ const h = require('highland');
 
 class InputCollection {
   constructor(source) {
-    this._input = source;
+    this._input = h(source);
   }
 
-  apply(fn) {
+  /**
+   * [TODO] This doesn't feel right because it's not consistent with
+   *        Pipeline.apply(), which is returning 'this'.
+   */
 
-    /**
-     * If this is the first time through, initialise the pipeline:
-     */
-
-    this._pipeline = this._pipeline || this._input;
-
-    /**
-     * Now just call the curried function with the current pipeline
-     * as input:
-     */
-
-    this._pipeline = fn(this._pipeline);
-    return this;
+  apply(pipeline) {
+    return h.through(this._input, pipeline);
   }
 };
-
-describe('InputCollection', () => {
-  it('simple input', (done) => {
-    new InputCollection([1, 2, 3, 4])
-    .apply(h.map(element => element * 2))
-    .apply(h.collect())
-    .apply(h.doto(ar => {
-      ar.should.eql([
-        1 * 2,
-        2 * 2,
-        3 * 2,
-        4 * 2
-      ]);
-    }))
-    .apply(h.done(done))
-    ;
-  });
-
-  it('can be reused', (done) => {
-    new InputCollection([3, 6, 9, 12])
-    .apply(h.map(element => element * 4))
-    .apply(h.map(element => element + 2))
-    .apply(h.collect())
-    .apply(h.doto(ar => {
-      ar.should.eql([
-        (3 * 4) + 2,
-        (6 * 4) + 2,
-        (9 * 4) + 2,
-        (12 * 4) + 2
-      ]);
-    }))
-    .apply(h.done(done))
-    ;
-  });
-});
 
 
 /**
@@ -96,7 +54,7 @@ class Pipeline {
     this._input = h();
   }
 
-  apply(fn) {
+  apply(obj) {
 
     /**
      * If this is the first time through, initialise the pipeline:
@@ -105,11 +63,22 @@ class Pipeline {
     this._pipeline = this._pipeline || this._input;
 
     /**
-     * Now just call the curried function with the current pipeline
-     * as input:
+     * If we have a curried function then call it with the current
+     * pipeline as input:
      */
 
-    this._pipeline = fn(this._pipeline);
+    if (typeof obj === 'function') {
+      this._pipeline = obj(this._pipeline);
+    }
+
+    /**
+     * Otherwise, we lot the object itself do to the pipeline, whatever
+     * it does:
+     */
+
+    else {
+      this._pipeline = obj.apply(this._pipeline);
+    }
     return this;
   }
 };
@@ -126,6 +95,23 @@ describe('Pipeline', () => {
         3 * 7,
         2 * 7,
         1 * 7
+      ]);
+    }))
+    .apply(h.done(done))
+    ;
+  });
+
+  it('InputCollection input', (done) => {
+    new Pipeline()
+    .apply(new InputCollection([4, 3, 2, 1]))
+    .apply(h.map(element => element - 8))
+    .apply(h.collect())
+    .apply(h.doto(ar => {
+      ar.should.eql([
+        4 - 8,
+        3 - 8,
+        2 - 8,
+        1 - 8
       ]);
     }))
     .apply(h.done(done))
