@@ -33,38 +33,42 @@ const h = require('highland');
 class Pipeline {
   constructor() {
     this._input = h();
+    this._transforms = [];
   }
 
   apply(obj) {
 
     /**
-     * If this is the first time through, initialise the pipeline:
-     */
-
-    this._pipeline = this._pipeline || this._input;
-
-    /**
-     * If we have a curried function then call it with the current
-     * pipeline as input:
+     * If we have a curried function then save it as is:
      */
 
     if (typeof obj === 'function') {
-      this._pipeline = obj(this._pipeline);
+      this._transforms.push(obj);
     }
 
     /**
-     * Otherwise, we lot the object itself do to the pipeline, whatever
-     * it does:
+     * Otherwise, we let the object itself tell us what to
+     * save:
      */
 
     else {
-      this._pipeline = obj.apply(this._pipeline);
+      this._transforms.push(obj.apply());
     }
+
     return this;
   }
 
   run(cb) {
-    this._pipeline = h.done(cb, this._pipeline);
+    /**
+     * The transforms list is a set of curried functions; use them to
+     * a Highland pipeline:
+     */
+
+    let pipeline = s => this._transforms.reduce((stream, fn) => fn(stream), s);
+
+    h()
+    .through(pipeline)
+    .done(cb);
   }
 };
 
@@ -118,8 +122,8 @@ class Map {
     this._fn = fn;
   }
 
-  apply(pipeline) {
-    return h.map(this._fn, pipeline);
+  apply() {
+    return h.map(this._fn);
   }
 };
 
@@ -128,14 +132,14 @@ class DoTo {
     this._fn = fn;
   }
 
-  apply(pipeline) {
-    return h.doto(this._fn, pipeline);
+  apply() {
+    return h.doto(this._fn);
   }
 };
 
 class Collect {
-  apply(pipeline) {
-    return h.collect(pipeline);
+  apply() {
+    return h.collect();
   }
 };
 
@@ -182,7 +186,7 @@ class InputCollection {
    *        Pipeline.apply(), which is returning 'this'.
    */
 
-  apply(pipeline) {
-    return h.through(this._input, pipeline);
+  apply() {
+    return h.through(this._input);
   }
 };
