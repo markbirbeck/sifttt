@@ -14,7 +14,7 @@ const h = require('highland');
  */
 
 describe('basic pipeline', () => {
-  it('simple input', () => {
+  it('simple input', (done) => {
 
     /**
      * Double some elements:
@@ -24,15 +24,17 @@ describe('basic pipeline', () => {
     .map(element => {
       return element * 2;
     })
-    .toArray(ar => {
+    .collect()
+    .doto(ar => {
       ar.should.eql([2, 4, 6, 8]);
     })
+    .done(done)
     ;
   });
 });
 
 describe('nested pipeline', () => {
-  it('using through() with stream as parameter', () => {
+  it('using through() with stream as parameter', (done) => {
 
     /**
      * Create a pipeline that doubles the elements and adds 3:
@@ -60,7 +62,8 @@ describe('nested pipeline', () => {
     .map(element => {
       return element - 2;
     })
-    .toArray(ar => {
+    .collect()
+    .doto(ar => {
       ar.should.eql([
         (((1 * 3) * 2) + 3) - 2,
         (((2 * 3) * 2) + 3) - 2,
@@ -68,10 +71,11 @@ describe('nested pipeline', () => {
         (((4 * 3) * 2) + 3) - 2
       ]);
     })
+    .done(done)
     ;
   });
 
-  it('using through() with pipeline setup from array of transforms', () => {
+  it('using through() with pipeline setup from array of transforms', (done) => {
 
     /**
      * Create a function that creates a pipeline that triples the
@@ -108,7 +112,8 @@ describe('nested pipeline', () => {
     .map(element => {
       return element - 20;
     })
-    .toArray(ar => {
+    .collect()
+    .doto(ar => {
       ar.should.eql([
         (((2 * 4) * 3) + 7) - 20,
         (((3 * 4) * 3) + 7) - 20,
@@ -116,6 +121,7 @@ describe('nested pipeline', () => {
         (((6 * 4) * 3) + 7) - 20
       ]);
     })
+    .done(done)
     ;
   });
 });
