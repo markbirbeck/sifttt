@@ -127,13 +127,14 @@ class Map {
   }
 };
 
-class DoTo {
+class DoTo extends Map {
   constructor(fn) {
-    this._fn = fn;
-  }
-
-  apply() {
-    return h.doto(this._fn);
+    super(
+      x => {
+        fn(x);
+        return x;
+      }
+    );
   }
 };
 
