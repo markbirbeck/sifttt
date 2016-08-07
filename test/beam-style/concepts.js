@@ -70,4 +70,52 @@ describe('nested pipeline', () => {
     })
     ;
   });
+
+  it('using through() with pipeline setup from array of transforms', () => {
+
+    /**
+     * Create a function that creates a pipeline that triples the
+     * elements and adds 7:
+     */
+
+    let transforms = [
+      h.map(element => {
+        return element * 3;
+      }),
+      h.map(element => {
+        return element + 7;
+      })
+    ];
+
+    /**
+     * Highland curries all methods, so we can build the pipeline just
+     * before we need it, by passing a stream parameter in to each of
+     * the transforms:
+     */
+
+    let pipeline = s => transforms.reduce((stream, fn) => fn(stream), s);
+
+    /**
+     * Quadruple some elements, run them through the pipeline, and then
+     * subtract 20:
+     */
+
+    h([2, 3, 7, 6])
+    .map(element => {
+      return element * 4;
+    })
+    .through(pipeline)
+    .map(element => {
+      return element - 20;
+    })
+    .toArray(ar => {
+      ar.should.eql([
+        (((2 * 4) * 3) + 7) - 20,
+        (((3 * 4) * 3) + 7) - 20,
+        (((7 * 4) * 3) + 7) - 20,
+        (((6 * 4) * 3) + 7) - 20
+      ]);
+    })
+    ;
+  });
 });
