@@ -200,3 +200,24 @@ describe('nested pipeline', () => {
     ;
   });
 });
+
+describe('side input', () => {
+  it('get input after start', (done) => {
+    h()
+    .through(h([1, 2, 3, 4]))
+    .map(element => {
+      return element * 2;
+    })
+    .collect()
+    .doto(ar => {
+      ar.should.eql([
+        1 * 2,
+        2 * 2,
+        3 * 2,
+        4 * 2
+      ]);
+    })
+    .done(done)
+    ;
+  });
+});
