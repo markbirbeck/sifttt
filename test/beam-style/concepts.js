@@ -4,9 +4,11 @@
  */
 
 'use strict';
+const path = require('path');
 require('chai').should();
 
 const h = require('highland');
+const gulp = require('gulp');
 
 /**
  * The first thing we want to do is take in a stream of numbers
@@ -216,6 +218,38 @@ describe('side input', () => {
         3 * 2,
         4 * 2
       ]);
+    })
+    .done(done)
+    ;
+  });
+
+  /**
+   * Key thing to watch out for is that we force the path to be relative
+   * to the test file:
+   */
+
+  it('from gulp', (done) => {
+    h()
+    .through(gulp.src(path.join(__dirname, '../fixtures/file.json')))
+    .map(file => {
+
+      /**
+       * If there is no data then convert 'contents' to JSON:
+       */
+
+      if (!file.data) {
+        try {
+          file.data = JSON.parse(String(file.contents));
+        } catch (e) {
+
+        }
+      }
+      return file;
+    })
+    .doto(element => {
+      element.data.should.eql({
+        'hello': 'world'
+      });
     })
     .done(done)
     ;
