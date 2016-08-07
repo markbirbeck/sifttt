@@ -110,6 +110,41 @@ describe('Pipeline', () => {
 
 
 /**
+ * In Beam parlance a Transform is a step in a pipeline.
+ */
+
+class Map {
+  constructor(fn) {
+    this._fn = fn;
+  }
+
+  apply(pipeline) {
+    return h.map(this._fn, pipeline);
+  }
+};
+
+describe('Transform', () => {
+  it('basic transforms', (done) => {
+    let p = new Pipeline()
+    .apply(new InputCollection([4, 3, 2, 1]))
+    .apply(new Map(element => element - 8))
+    .apply(h.collect())
+    .apply(h.doto(ar => {
+      ar.should.eql([
+        4 - 8,
+        3 - 8,
+        2 - 8,
+        1 - 8
+      ]);
+    }))
+    ;
+
+    p.run(done);
+  });
+});
+
+
+/**
  * In Beam parlance the data source is an input collection, which is
  * a special kind of transform for a Pipeline:
  *
