@@ -123,12 +123,18 @@ class Map {
   }
 };
 
+class Collect {
+  apply(pipeline) {
+    return h.collect(pipeline);
+  }
+};
+
 describe('Transform', () => {
   it('basic transforms', (done) => {
     let p = new Pipeline()
     .apply(new InputCollection([4, 3, 2, 1]))
     .apply(new Map(element => element - 8))
-    .apply(h.collect())
+    .apply(new Collect())
     .apply(h.doto(ar => {
       ar.should.eql([
         4 - 8,
