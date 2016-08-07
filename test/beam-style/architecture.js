@@ -84,3 +84,51 @@ describe('InputCollection', () => {
     ;
   });
 });
+
+
+/**
+ * The top-level component is a Pipeline, which runs against transforms
+ * by using its apply() method.
+ */
+
+class Pipeline {
+  constructor() {
+    this._input = h();
+  }
+
+  apply(fn) {
+
+    /**
+     * If this is the first time through, initialise the pipeline:
+     */
+
+    this._pipeline = this._pipeline || this._input;
+
+    /**
+     * Now just call the curried function with the current pipeline
+     * as input:
+     */
+
+    this._pipeline = fn(this._pipeline);
+    return this;
+  }
+};
+
+describe('Pipeline', () => {
+  it('Highland input', (done) => {
+    new Pipeline()
+    .apply(h.through(h([4, 3, 2, 1])))
+    .apply(h.map(element => element * 7))
+    .apply(h.collect())
+    .apply(h.doto(ar => {
+      ar.should.eql([
+        4 * 7,
+        3 * 7,
+        2 * 7,
+        1 * 7
+      ]);
+    }))
+    .apply(h.done(done))
+    ;
+  });
+});
