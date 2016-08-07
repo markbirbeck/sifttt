@@ -66,4 +66,21 @@ describe('InputCollection', () => {
     .apply(h.done(done))
     ;
   });
+
+  it('can be reused', (done) => {
+    new InputCollection([3, 6, 9, 12])
+    .apply(h.map(element => element * 4))
+    .apply(h.map(element => element + 2))
+    .apply(h.collect())
+    .apply(h.doto(ar => {
+      ar.should.eql([
+        (3 * 4) + 2,
+        (6 * 4) + 2,
+        (9 * 4) + 2,
+        (12 * 4) + 2
+      ]);
+    }))
+    .apply(h.done(done))
+    ;
+  });
 });
