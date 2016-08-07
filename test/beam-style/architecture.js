@@ -81,11 +81,15 @@ class Pipeline {
     }
     return this;
   }
+
+  run(cb) {
+    this._pipeline = h.done(cb, this._pipeline);
+  }
 };
 
 describe('Pipeline', () => {
   it('Highland input', (done) => {
-    new Pipeline()
+    let p = new Pipeline()
     .apply(h.through(h([4, 3, 2, 1])))
     .apply(h.map(element => element * 7))
     .apply(h.collect())
@@ -97,12 +101,13 @@ describe('Pipeline', () => {
         1 * 7
       ]);
     }))
-    .apply(h.done(done))
     ;
+
+    p.run(done);
   });
 
   it('InputCollection input', (done) => {
-    new Pipeline()
+    let p = new Pipeline()
     .apply(new InputCollection([4, 3, 2, 1]))
     .apply(h.map(element => element - 8))
     .apply(h.collect())
@@ -114,7 +119,8 @@ describe('Pipeline', () => {
         1 - 8
       ]);
     }))
-    .apply(h.done(done))
     ;
+
+    p.run(done);
   });
 });
