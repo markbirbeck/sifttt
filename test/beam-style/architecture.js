@@ -69,40 +69,42 @@ class Pipeline {
 };
 
 describe('Pipeline', () => {
-  it('Highland input', (done) => {
-    let p = new Pipeline()
-    .apply(h.through(h([4, 3, 2, 1])))
-    .apply(h.map(element => element * 7))
-    .apply(h.collect())
-    .apply(h.doto(ar => {
-      ar.should.eql([
-        4 * 7,
-        3 * 7,
-        2 * 7,
-        1 * 7
-      ]);
-    }))
-    ;
+  describe('input from', () => {
+    it('Highland', (done) => {
+      let p = new Pipeline()
+      .apply(h.through(h([4, 3, 2, 1])))
+      .apply(h.map(element => element * 7))
+      .apply(h.collect())
+      .apply(h.doto(ar => {
+        ar.should.eql([
+          4 * 7,
+          3 * 7,
+          2 * 7,
+          1 * 7
+        ]);
+      }))
+      ;
 
-    p.run(done);
-  });
+      p.run(done);
+    });
 
-  it('InputCollection input', (done) => {
-    let p = new Pipeline()
-    .apply(new InputCollection([4, 3, 2, 1]))
-    .apply(h.map(element => element - 8))
-    .apply(h.collect())
-    .apply(h.doto(ar => {
-      ar.should.eql([
-        4 - 8,
-        3 - 8,
-        2 - 8,
-        1 - 8
-      ]);
-    }))
-    ;
+    it('InputCollection', (done) => {
+      let p = new Pipeline()
+      .apply(new InputCollection([4, 3, 2, 1]))
+      .apply(h.map(element => element - 8))
+      .apply(h.collect())
+      .apply(h.doto(ar => {
+        ar.should.eql([
+          4 - 8,
+          3 - 8,
+          2 - 8,
+          1 - 8
+        ]);
+      }))
+      ;
 
-    p.run(done);
+      p.run(done);
+    });
   });
 });
 
