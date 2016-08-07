@@ -123,6 +123,16 @@ class Map {
   }
 };
 
+class DoTo {
+  constructor(fn) {
+    this._fn = fn;
+  }
+
+  apply(pipeline) {
+    return h.doto(this._fn, pipeline);
+  }
+};
+
 class Collect {
   apply(pipeline) {
     return h.collect(pipeline);
@@ -135,7 +145,7 @@ describe('Transform', () => {
     .apply(new InputCollection([4, 3, 2, 1]))
     .apply(new Map(element => element - 8))
     .apply(new Collect())
-    .apply(h.doto(ar => {
+    .apply(new DoTo(ar => {
       ar.should.eql([
         4 - 8,
         3 - 8,
