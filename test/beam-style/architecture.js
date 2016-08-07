@@ -9,15 +9,17 @@ require('chai').should();
 const h = require('highland');
 
 /**
- * In Beam parlance the data source is an input collection, which is
- * a special kind of transform for a Pipeline:
+ * The top-level component is a Pipeline, which runs against transforms
+ * by using its apply() method.
  *
- *  new Pipeline()
+ *  let p = new Pipeline()
  *  .apply(new InputCollection([1, 2, 3, 4]))
  *  .apply(Doto(element => {
  *    console.log(`Got an element: ${JSON.stringify(element)}`);
  *  }))
  *  ;
+ *
+ *  p.run();
  *
  * This would mean that everything has to have an apply() method, since it
  * will be invoked in a standard way from the framework.
@@ -26,27 +28,6 @@ const h = require('highland');
  * extensions to the library, by implementing a bunch of classes
  * that have an apply() method. It also means that the extensions
  * could be applied to any library not just Highland.
- */
-
-class InputCollection {
-  constructor(source) {
-    this._input = h(source);
-  }
-
-  /**
-   * [TODO] This doesn't feel right because it's not consistent with
-   *        Pipeline.apply(), which is returning 'this'.
-   */
-
-  apply(pipeline) {
-    return h.through(this._input, pipeline);
-  }
-};
-
-
-/**
- * The top-level component is a Pipeline, which runs against transforms
- * by using its apply() method.
  */
 
 class Pipeline {
@@ -124,3 +105,31 @@ describe('Pipeline', () => {
     p.run(done);
   });
 });
+
+
+/**
+ * In Beam parlance the data source is an input collection, which is
+ * a special kind of transform for a Pipeline:
+ *
+ *  new Pipeline()
+ *  .apply(new InputCollection([1, 2, 3, 4]))
+ *  .apply(Doto(element => {
+ *    console.log(`Got an element: ${JSON.stringify(element)}`);
+ *  }))
+ *  ;
+ */
+
+class InputCollection {
+  constructor(source) {
+    this._input = h(source);
+  }
+
+  /**
+   * [TODO] This doesn't feel right because it's not consistent with
+   *        Pipeline.apply(), which is returning 'this'.
+   */
+
+  apply(pipeline) {
+    return h.through(this._input, pipeline);
+  }
+};
