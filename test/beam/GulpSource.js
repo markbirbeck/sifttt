@@ -4,13 +4,14 @@ const path = require('path');
 require('chai').should();
 
 const Pipeline = require('../../lib/beam/Pipeline');
-const GulpCollection = require('../../lib/beam/GulpCollection');
+const GulpSource = require('../../lib/beam/GulpSource');
+const Read = require('../../lib/beam/Read');
 const ct = require('../../lib/beam/coreTransforms');
 
-describe('GulpCollection', () => {
+describe('GulpSource', () => {
   it('simple file read', done => {
     let p = new Pipeline()
-    .apply(new GulpCollection(path.join(__dirname, '..', 'fixtures', 'file.json')))
+    .apply(Read.from(new GulpSource(path.join(__dirname, '..', 'fixtures', 'file.json'))))
     .apply(new ct.ParseJSON())
     .apply(new ct.DoTo(element => {
       element.should.have.property('data');
