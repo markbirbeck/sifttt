@@ -223,6 +223,37 @@ describe('side input', () => {
     ;
   });
 
+  it('get input after start a second time', (done) => {
+    h()
+    .through(h([1, 2, 3, 4]))
+    .map(element => {
+      return element * 2;
+    })
+    .collect()
+    .doto(ar => {
+      ar.should.eql([
+        1 * 2,
+        2 * 2,
+        3 * 2,
+        4 * 2
+      ]);
+    })
+    .through(h([7, 6, 5]))
+    .map(element => {
+      return element * 3;
+    })
+    .collect()
+    .doto(ar => {
+      ar.should.eql([
+        7 * 3,
+        6 * 3,
+        5 * 3
+      ]);
+    })
+    .done(done)
+    ;
+  });
+
   /**
    * Key thing to watch out for is that we force the path to be relative
    * to the test file:
