@@ -49,20 +49,32 @@ let outputWriter = s => s
  * A transform has one or more steps:
  */
 let transform = new CompositeTransform()
-.apply(incrementTransform('count'))
-// .apply(incrementTransform('parrot'))
-// .apply(incrementTransform('dad'))
+.apply(incrementTransform('count'), 'increment count')
+.apply(incrementTransform('parrot'), 'increment parrot')
+.apply(incrementTransform('dad'), 'increment dad')
 ;
 
 /**
  * A pipeline that has its own input, and a few transform steps:
  */
 
-// let pipeline = s => s
-// .through(inputCollection())
-// .through(transform)
-// .through(outputWriter)
-// ;
+let transformx = {
+  pipeline: s => s
+  .through(incrementTransform('count'), 'increment count')
+  .through(incrementTransform('parrot'), 'increment parrot')
+  .through(incrementTransform('dad'), 'increment dad'),
+
+  run: function() {
+    let self = this;
+
+    return function(s) {
+      console.log('In run:', JSON.stringify(this));
+      console.log('      :', JSON.stringify(transform));
+      return s.through(h.pipeline(self.pipeline));
+    }
+  }
+};
+
 
 /**
  * General pipeline runner:
@@ -78,16 +90,21 @@ let transform = new CompositeTransform()
 // }
 
 let pipeline = new Pipeline({cmd: 'do something!!'})
-.apply(inputCollection())
-.apply(outputWriter)
-.apply(incrementTransform('parrot'))
-.apply(outputWriter)
-.apply(transform.apply2())
-.apply(outputWriter)
+.apply(inputCollection(), 'inputCollection')
+.apply(outputWriter, 'outputWriter #1')
+.apply(incrementTransform('parrot'), 'increment parrot')
+.apply(outputWriter, 'outputWriter #2')
+.apply(transform, 'CompositeTransform')
+.apply(outputWriter, 'outputWriter #3')
+.apply(incrementTransform('parrot'), 'increment parrot')
+.apply(outputWriter, 'outputWriter #4')
+.apply(incrementTransform('dad'), 'increment dad')
+.apply(outputWriter, 'outputWriter #5')
+.run()
 ;
 
 // let result = pipeline.run({cmd: 'do something!!'});
-/*let result =*/ pipeline.run();
+/*let result =*/ //pipeline.run();
 
 /*
 sifttt()
