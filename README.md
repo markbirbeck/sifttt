@@ -166,3 +166,56 @@ var recipe2 = {
 
 sifttt.addRecipe(gulp, recipe2, connections);
 ```
+
+## The Future is Beamish
+
+It has been quite difficult to add new features relating to the chaining and nesting of pipelines, mainly due to the way Sifttt has modeled itself on the `logstah` approach.
+
+There are also a number of other features that I wanted to add -- such as being able to process different parts of a recipe on different servers -- which would required creating full featured 'wrappers' around each possible processing step.
+
+For this reason I started looking around for a suitable terminology to adopt for what I was trying to create and found the closest was the one provided by Apache Beam.
+
+A simple pipeline in Beam looks like this (in Java):
+
+```java
+  public static void main(String[] args) {
+    // Create a pipeline parameterized by commandline flags.
+    Pipeline p = Pipeline.create(PipelineOptionsFactory.fromArgs(arg));
+
+    p.apply(TextIO.Read.from("gs://..."))   // Read input.
+     .apply(new CountWords())               // Do some processing.
+     .apply(TextIO.Write.to("gs://..."));   // Write output.
+
+    // Run the pipeline.
+    p.run();
+  }
+```
+
+(Example taken from [Cloud Dataflow > Pipelines](https://cloud.google.com/dataflow/model/pipelines).)
+
+Sifttt version 0.83.0 onwards provides this as:
+
+```javascript
+const Pipeline = require('sifttt/lib/beam/Pipeline');
+const GulpSource = require('sifttt/lib/beam/GulpSource');
+const ElasticSearchSink = require('sifttt/lib/beam/ElasticSearchSink');
+
+// Create a pipeline. The only parameter so far is 'name'.
+let p = Pipeline.create({name: 'My Pipeline'});
+
+p
+.apply(Read.from(new GulpSource(path.join(__dirname, '..', 'fixtures',
+  'file.json'))))             // Read input.
+.apply(new CountWords())      // Do some processing.
+.apply(Write.to(              // Write output.
+  new ElasticSearchSink()
+  .host(opts.host)
+  .retries(opts.retries)
+))
+;
+
+// Run the pipeline.
+p.run();
+```
+
+At the moment I'm not intending to provide a faithful copy of Beam in Node; I was more seeking a set of concepts and terminology to express some of the ideas I've been working with around tasks, pipelines, streams, distributed processing, queues, windowing, data sources and targets, and so on. So far Apache Beam has approached these concepts in the best way I've seen, so I'm planning to adopt as much as possible of their approach.
