@@ -7,7 +7,7 @@ const ct = require('../../lib/beam/coreTransforms');
 
 describe('Pipeline', () => {
   it('core transforms', done => {
-    let p = new Pipeline()
+    let p = Pipeline.create()
     .apply(new InputCollection([4, 3, 2, 1]))
     .apply(new ct.Map(element => element - 8))
     .apply(new ct.Collect())

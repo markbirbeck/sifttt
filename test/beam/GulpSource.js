@@ -10,7 +10,7 @@ const ct = require('../../lib/beam/coreTransforms');
 
 describe('GulpSource', () => {
   it('simple file read', done => {
-    let p = new Pipeline()
+    let p = Pipeline.create()
     .apply(Read.from(new GulpSource(path.join(__dirname, '..', 'fixtures', 'file.json'))))
     .apply(new ct.ParseJSON())
     .apply(new ct.DoTo(element => {
