@@ -169,9 +169,9 @@ sifttt.addRecipe(gulp, recipe2, connections);
 
 ## The Future is Beamish
 
-It has been quite difficult to add new features relating to the chaining and nesting of pipelines, mainly due to the way Sifttt has modeled itself on the `logstah` approach.
+It has been quite difficult to add new features relating to the chaining and nesting of pipelines, mainly due to the way Sifttt has modeled itself on `logstash` recipes.
 
-There are also a number of other features that I wanted to add -- such as being able to process different parts of a recipe on different servers -- which would required creating full featured 'wrappers' around each possible processing step.
+There are also a number of other features that I wanted to add -- such as being able to process different parts of a recipe on different servers -- which would require creating full-featured 'wrappers' around each possible processing step. (For example, I've long been able to use Amazon's SQS queues as input to a `gulp` task, but I also want various steps in a `gulp` pipeline to be able to use external queues without the programmer having to make any changes.)
 
 For this reason I started looking around for a suitable terminology to adopt for what I was trying to create and found the closest was the one provided by Apache Beam.
 
@@ -218,4 +218,4 @@ p
 p.run();
 ```
 
-At the moment I'm not intending to provide a faithful copy of Beam in Node; I was more seeking a set of concepts and terminology to express some of the ideas I've been working with around tasks, pipelines, streams, distributed processing, queues, windowing, data sources and targets, and so on. So far Apache Beam has approached these concepts in the best way I've seen, so I'm planning to adopt as much as possible of their approach.
+At the moment I'm not intending to provide a faithful copy of Beam in Node; I was more seeking a set of concepts and terminology to express some of the ideas I've been working with around tasks, pipelines, streams, distributed processing, queues, windowing, data sources and targets, and so on. So far Apache Beam has approached these concepts in the best way I've seen, so I'm planning to adopt as much as possible of their conceptual model.
