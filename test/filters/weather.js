@@ -7,7 +7,8 @@ chai.use(chaiAsPromised);
 
 let uut = require('../../lib/filters/weather');
 
-describe('weather', () => {
+describe('weather', function() {
+  this.timeout(10000);
   it('in London on January 1st, 2008', function() {
     let res = uut(
       {

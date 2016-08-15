@@ -7,7 +7,8 @@ chai.use(chaiAsPromised);
 
 const uut = require('../../lib/filters/geocode');
 
-describe('geocode', () => {
+describe('geocode', function() {
+  this.timeout(10000);
   it('address in Paris', () => {
     let res = uut(
       {
