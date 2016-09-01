@@ -79,4 +79,5 @@ module.exports = function(gulp, connections, recipes, defaultTaskDependencies) {
       })
     });
   }
+  return opts;
 }
