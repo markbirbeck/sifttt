@@ -12,7 +12,7 @@ let codecs = require('./lib/codecs');
 
 var opts = minimist(process.argv.slice(2));
 
-module.exports = function(gulp, connections, recipes, defaultTaskDependencies) {
+module.exports = function(gulp, connections, recipes, defaultTaskDependencies, partitionedTask) {
   var channels = require('./lib/channels')(connections, codecs, recipes);
 
   recipes.forEach(function(recipe) {
@@ -24,6 +24,69 @@ module.exports = function(gulp, connections, recipes, defaultTaskDependencies) {
    */
 
   gulp.task('api', createApi(recipes, connections, codecs, channels));
+
+  /**
+   * If there is a composable task...:
+   */
+
+  if (!opts.spawn && partitionedTask) {
+    let taskName = partitionedTask;
+
+    console.log(`Creating composable task with ${taskName}`);
+
+    gulp.task(partitionedTask, cb => {
+      let childList = [];
+
+      let numWorkers = opts.numWorkers || require('os').cpus().length;
+
+      for (let worker = 1; worker <= numWorkers; worker++) {
+        let task = spawn('gulp', [
+          taskName + 'Worker',
+          '--spawn',
+          `--worker=${worker}`,
+          `--numWorkers=${numWorkers}`,
+          `--input=${opts.input}`,
+        ]);
+        let workerName = `${taskName}-${worker}`;
+
+        task.stdout.on('data', data => {
+          console.log(`[${workerName}]: ${data}`);
+        });
+
+        task.stderr.on('data', data => {
+          console.error(`[${workerName}]: error: ${data}`);
+        });
+
+        task.on('close', code => {
+          if (code !== 0) {
+            console.error(`[${workerName}]: exited with error: ${code}`);
+          } else {
+            console.log(`[${workerName}]: exited successfully`);
+          }
+
+          /**
+           * Remove the finished task from the list:
+           */
+
+          for (let i = 0; i < childList.length; i++) {
+            if (childList[i].name === workerName) {
+              delete childList[i];
+            }
+          }
+
+          /**
+           * Exit when there are no children left:
+           */
+
+          if (!childList.length) {
+            process.exit(0);
+          }
+        });
+
+        childList.push({name: taskName, task});
+      }
+    });
+  }
 
   /**
    * If there is a list of dependencies for the default task then create
