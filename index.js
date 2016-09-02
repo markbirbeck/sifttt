@@ -26,13 +26,13 @@ module.exports = function(gulp, connections, recipes, defaultTaskDependencies, p
   gulp.task('api', createApi(recipes, connections, codecs, channels));
 
   /**
-   * If there is a composable task...:
+   * If there is a partitioned task...:
    */
 
   if (!opts.spawn && partitionedTask) {
     let taskName = partitionedTask;
 
-    console.log(`Creating composable task with ${taskName}`);
+    console.log(`Creating partitioned task with ${taskName}`);
 
     gulp.task(partitionedTask, cb => {
       let childList = [];
