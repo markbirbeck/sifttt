@@ -27,6 +27,6 @@ describe('json', function() {
         {a: 1}
       );
     }).should.throw('Unable to parse JSON from \'#{c}\': SyntaxError: Unexpected' +
-      ' end of input');
+      ' end of JSON input');
   });
 });
