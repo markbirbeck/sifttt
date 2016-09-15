@@ -54,6 +54,11 @@ describe('converter functions', () => {
       uut.toNumber('7760.78')
       .should.equal(7760.78);
     });
+
+    it('not a number', () => {
+      uut.toNumber('345xyz')
+      .should.equal('345xyz');
+    });
   });
 
   describe('toString()', () => {
