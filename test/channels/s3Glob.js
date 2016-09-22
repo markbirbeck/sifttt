@@ -29,7 +29,7 @@ var channels = require('../../lib/channels')(connections, recipes);
 
 describe('s3Glob channel', function() {
   it('should get folder count', function(done) {
-    this.timeout(10000);
+    this.timeout(30000);
     let count = 0;
 
     uut(recipes[0], connections, codecs, channels)
