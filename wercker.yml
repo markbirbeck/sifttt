@@ -1,6 +1,6 @@
 # The default nodejs box:
 #
-box: node:4.3.2-onbuild
+box: node:6.3.0
 # Build definition
 build:
   # The steps that will be executed on build
