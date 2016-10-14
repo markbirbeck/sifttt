@@ -41,6 +41,11 @@ describe('converter functions', () => {
         uut.toDate('1446807986789')
         .should.equal('2015-11-06T11:06:26.789Z');
       });
+
+      it('date', () => {
+        uut.toDate('2015-11-07')
+        .should.equal('2015-11-07T00:00:00.000Z');
+      });
     });
   });
 
