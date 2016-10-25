@@ -34,7 +34,7 @@ module.exports = function(gulp, connections, recipes, defaultTaskDependencies, p
 
     console.log(`Creating partitioned task with ${taskName}`);
 
-    gulp.task(partitionedTask, cb => {
+    gulp.task(partitionedTask, (/*cb*/) => {
       let childList = [];
 
       let numWorkers = opts.numWorkers || require('os').cpus().length;
@@ -101,7 +101,7 @@ module.exports = function(gulp, connections, recipes, defaultTaskDependencies, p
 
     console.log(`Creating default task with ${tasks}`);
 
-    gulp.task('default', cb => {
+    gulp.task('default', (/*cb*/) => {
       let childList = [];
 
       tasks.forEach(taskName => {
