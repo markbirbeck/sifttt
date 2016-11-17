@@ -1,5 +1,5 @@
 /**
- * Test the moment function.
+ * Test the convert function.
  */
 
 require('chai').should();
