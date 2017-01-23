@@ -25,7 +25,7 @@ describe('weather', function() {
     return res.should.eventually.have
     .property('weather')
     .include({
-      summary: 'Mostly cloudy throughout the day.',
+      summary: 'Foggy in the morning.',
       precipType: 'rain'
     })
     ;
