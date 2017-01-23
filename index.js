@@ -24,6 +24,10 @@ module.exports = function(gulp, connections, recipes, defaultTaskDependencies, p
    */
 
   gulp.task('api', createApi(recipes, connections, codecs, channels));
+  gulp.task('api2', function(/*cb*/) {
+    var wrap = require('gulp-endpoint');
+    wrap(gulp);
+  });
 
   /**
    * If there is a partitioned task...:
