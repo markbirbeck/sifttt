@@ -13,7 +13,7 @@ describe('MySqlSource', () => {
    */
 
   it.skip('simple db read', done => {
-    let p = Pipeline.create()
+    let p = Pipeline.create({rethrowErrors: true})
     .apply(Read.from(new MySqlSource(
       `
         SELECT
@@ -69,7 +69,7 @@ describe('MySqlSource', () => {
   });
 
   it.skip('use parameters', done => {
-    let p = Pipeline.create()
+    let p = Pipeline.create({rethrowErrors: true})
     .apply(Read.from(new MySqlSource(
       `
         SELECT

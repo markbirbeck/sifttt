@@ -7,7 +7,7 @@ const ct = require('../../lib/beam/coreTransforms');
 
 describe('Pipeline', () => {
   it('core transforms', done => {
-    let p = Pipeline.create()
+    let p = Pipeline.create({rethrowErrors: true})
     .apply(new InputCollection([4, 3, 2, 1]))
     .apply(new ct.Map(element => element - 8))
     .apply(new ct.Collect())
@@ -25,7 +25,7 @@ describe('Pipeline', () => {
   });
 
   it('Otherwise', done => {
-    let p = Pipeline.create()
+    let p = Pipeline.create({rethrowErrors: true})
     .apply(new InputCollection([]))
     .apply(new ct.Otherwise([8, 7, 6, 5]))
     .apply(new ct.Map(element => element - 4))
