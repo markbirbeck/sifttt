@@ -42,4 +42,39 @@ describe('Pipeline', () => {
 
     p.run(done);
   });
+
+  it('A pipeline running as a PTransform in another pipeline', done => {
+
+    /**
+     * Create a pipeline that doubles the elements and adds 3:
+     */
+
+    let nestedPipeline = Pipeline.create()
+    .apply(new ct.Map(element => element * 2))
+    .apply(new ct.Map(element => element + 3))
+    ;
+
+    /**
+     * Triple some elements, run them through the nested pipeline, and
+     * then subtract 2:
+     */
+
+    let p = Pipeline.create({rethrowErrors: true})
+    .apply(new InputCollection([1, 2, 3, 4]))
+    .apply(new ct.Map(element => element * 3))
+    .apply(nestedPipeline)
+    .apply(new ct.Map(element => element - 2))
+    .apply(new ct.Collect())
+    .apply(new ct.DoTo(ar => {
+      ar.should.eql([
+        (((1 * 3) * 2) + 3) - 2,
+        (((2 * 3) * 2) + 3) - 2,
+        (((3 * 3) * 2) + 3) - 2,
+        (((4 * 3) * 2) + 3) - 2
+      ]);
+    }))
+    ;
+
+    p.run(done);
+  });
 });
