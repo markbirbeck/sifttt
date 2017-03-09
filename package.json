@@ -9,6 +9,9 @@
     "preversion": "npm run lint && npm test",
     "docker": "docker run -it -v \"${PWD}\":/usr/src/app --env-file=.env sifttt"
   },
+  "bin": {
+    "beamish": "./bin/cli.js"
+  },
   "keywords": [
     "gulpfriendly",
     "siftttfriendly"
@@ -25,6 +28,7 @@
     "cors": "^2.7.1",
     "coverup": "^0.1.0",
     "csv-parse": "^1.0.4",
+    "dotenv": "^4.0.0",
     "elasticsearch": "^11.0.1",
     "evaljson": "^2.0.0",
     "express": "^4.13.4",
@@ -51,7 +55,8 @@
     "vinyl": "^1.1.1",
     "vinyl-amqp": "^0.11.0",
     "vinyl-elasticsearch": "^1.11.0",
-    "vinyl-s3": "^0.3.0"
+    "vinyl-s3": "^0.3.0",
+    "yargs": "github:markbirbeck/yargs#temp-for-updated-yargs-parser"
   },
   "devDependencies": {
     "chai": "^3.5.0",
