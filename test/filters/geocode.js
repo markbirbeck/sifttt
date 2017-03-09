@@ -45,15 +45,15 @@ describe('geocode', function() {
         },
         target: 'b'
       },
-      {a: 'gibberish'}
+      {a: 'some-kind-of-place-that-does-not-exist'}
     );
 
     return Promise.all([
       res.should.eventually.deep
       .equal({
-        a: 'gibberish',
+        a: 'some-kind-of-place-that-does-not-exist',
         b: {
-          error: 'Failed to geocode: \"gibberish\"'
+          error: 'Failed to geocode: \"some-kind-of-place-that-does-not-exist\"'
         }
       })
     ]);
