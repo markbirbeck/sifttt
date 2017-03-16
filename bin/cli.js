@@ -72,8 +72,19 @@ try {
   }
 }
 
+/**
+ * Create an instance of our source, and if it's not a pipeline than wrap it
+ * in a Read.from():
+ */
+
+let source = new Source(argv);
+
+if (source.getStream) {
+  source = Read.from(source);
+}
+
 let pipelineIn = Pipeline.create({name: command})
-.apply(Read.from(new Source(argv)));
+.apply(source);
 
 let pipelineTransform = pipelineIn;
 
@@ -96,9 +107,20 @@ if (ct.hasOwnProperty(command)) {
   .apply(new ct[command](Module(argv)));
 }
 
+/**
+ * Create an instance of our sink, and if it's not a pipeline than wrap it
+ * in a Write.to():
+ */
+
+let sink = new Sink(argv);
+
+if (sink.getStream) {
+  sink = Write.to(sink);
+}
+
 let pipelineOut = pipelineTransform
 .apply(new ct.ToVinyl())
-.apply(Write.to(new Sink(argv)))
+.apply(sink)
 ;
 
 pipelineOut.run(() => {
