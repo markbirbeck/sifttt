@@ -44,6 +44,9 @@ if (command === 'sink') {
 
 let Source;
 try {
+  if (argv.verbose) {
+    console.error('About to load source from:', sourceModulePath);
+  }
   Source = require(sourceModulePath);
 } catch (e) {
   if (e instanceof Error && e.code === 'MODULE_NOT_FOUND') {
@@ -56,6 +59,9 @@ try {
 
 let Sink;
 try {
+  if (argv.verbose) {
+    console.error('About to load sink from:', sinkModulePath);
+  }
   Sink = require(sinkModulePath);
 } catch (e) {
   if (e instanceof Error && e.code === 'MODULE_NOT_FOUND') {
