@@ -36,7 +36,7 @@ describe('s3Glob channel', function() {
     .each(() => count++)
     .done(() => {
       count
-      .should.be.at.least(1000);
+      .should.eql(7);
       done();
     })
     ;
