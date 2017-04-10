@@ -1,6 +1,6 @@
 {
   "name": "sifttt",
-  "version": "0.117.0",
+  "version": "0.118.0",
   "description": "Create simple recipes to do simple tasks, using gulp.",
   "main": "index.js",
   "scripts": {
