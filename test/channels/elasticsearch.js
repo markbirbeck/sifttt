@@ -13,7 +13,7 @@ var recipes = [
           query: {
             // Boolean query for matching and excluding items.
             bool: {
-              must: [{match: {'actionStatus': 'CompletedActionStatus'}}]
+              filter: [{match: {'actionStatus': 'CompletedActionStatus'}}]
             }
           },
           // Aggregate on the results
